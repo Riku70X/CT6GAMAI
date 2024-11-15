@@ -16,34 +16,34 @@ public class Vehicle : MonoBehaviour
 
     //"Constant" values, they are public so we can adjust them through the editor
 
-    [Tooltip("Represents the weight of an object, will effect its acceleration")] [SerializeField]
-    private float Mass = 1;
+    [Tooltip("Represents the weight of an object, will effect its acceleration")]
+    [SerializeField] private float Mass = 1;
 
     [Tooltip("The maximum speed this agent can move per second")]
-    public float MaxSpeed = 1;
+    public float MaxSpeed = 3;
 
-    [Tooltip("The thrust this agent can produce")] [SerializeField]
-    private float MaxForce = 1;
+    [Tooltip("The thrust this agent can produce")]
+    [SerializeField] private float MaxForce = 1;
 
     //[Tooltip("We use this to determine how fast the agent can turn, but just ignore it for, we won't be using it")] [SerializeField]
     //private float MaxTurnRate = 1.0f;
 
     void Update()
     {
-        Vector3 SteeringForce = Vector3.zero;
+        Vector3 steeringForce = Vector3.zero;
 
         //Get all steering behaviours attached to this object and add their calculated steering force onto this SteeringForce
         SteeringBehaviourBase[] steeringBehaviours = GetComponents<SteeringBehaviourBase>();
         foreach (SteeringBehaviourBase steeringBehaviour in steeringBehaviours)
         {
-            SteeringForce += steeringBehaviour.Calculate();
+            steeringForce += steeringBehaviour.Calculate();
         }
 
-        SteeringForce = Vector3.ClampMagnitude(SteeringForce, MaxForce);
+        steeringForce = Vector3.ClampMagnitude(steeringForce, MaxForce);
 
-        Vector3 Acceleration = SteeringForce / Mass;
+        Vector3 acceleration = steeringForce / Mass;
 
-        Velocity += Acceleration * Time.deltaTime;
+        Velocity += acceleration * Time.deltaTime;
 
         Velocity = Vector3.ClampMagnitude(Velocity, MaxSpeed);
 

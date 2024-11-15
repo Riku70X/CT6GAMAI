@@ -7,14 +7,17 @@ using UnityEngine;
 /// </summary>
 public class Flee : SteeringBehaviourBase
 {
-    [SerializeField]
-    private Vector3 TargetPos;
+    [Tooltip("The location we want to flee from")]
+    [SerializeField] private Vector3 TargetPos;
 
     public override Vector3 Calculate()
     {
         Vehicle vehicle = GetComponent<Vehicle>();
-        Vector3 DesiredVelocity = (transform.position - TargetPos).normalized * vehicle.MaxSpeed;
 
-        return (DesiredVelocity - vehicle.Velocity);
+        Vector3 desiredVelocity = (transform.position - TargetPos).normalized * vehicle.MaxSpeed;
+
+        Vector3 steeringForce = desiredVelocity - vehicle.Velocity;
+
+        return steeringForce;
     }
 }
