@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Returns a force that directs the agent towards a target position
+/// Returns a force that directs the agent away from a target position
 /// </summary>
-public class Seek : SteeringBehaviourBase
+public class Flee : SteeringBehaviourBase
 {
     [SerializeField]
     private Vector3 TargetPos;
@@ -13,7 +13,7 @@ public class Seek : SteeringBehaviourBase
     public override Vector3 Calculate()
     {
         Vehicle vehicle = GetComponent<Vehicle>();
-        Vector3 DesiredVelocity = (TargetPos - transform.position).normalized * vehicle.MaxSpeed;
+        Vector3 DesiredVelocity = (transform.position - TargetPos).normalized * vehicle.MaxSpeed;
 
         return (DesiredVelocity - vehicle.Velocity);
     }

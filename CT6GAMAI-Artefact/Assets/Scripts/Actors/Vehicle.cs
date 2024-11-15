@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Applies the forces of the Steering Behaviours attached to this object
+/// </summary>
 public class Vehicle : MonoBehaviour
 {
     //"Updated" Values
@@ -11,19 +14,19 @@ public class Vehicle : MonoBehaviour
 
     //Position, Heading and Side can be accessed from the transform component with transform.position, transform.forward and transform.right respectively
 
-    //"Constant" values, they are serialized so we can adjust them through the editor
+    //"Constant" values, they are public so we can adjust them through the editor
 
     [Tooltip("Represents the weight of an object, will effect its acceleration")] [SerializeField]
     private float Mass = 1;
 
-    [Tooltip("The maximum speed this agent can move per second")] [SerializeField]
-    private float MaxSpeed = 1;
+    [Tooltip("The maximum speed this agent can move per second")]
+    public float MaxSpeed = 1;
 
     [Tooltip("The thrust this agent can produce")] [SerializeField]
     private float MaxForce = 1;
 
-    [Tooltip("We use this to determine how fast the agent can turn, but just ignore it for, we won't be using it")] [SerializeField]
-    private float MaxTurnRate = 1.0f;
+    //[Tooltip("We use this to determine how fast the agent can turn, but just ignore it for, we won't be using it")] [SerializeField]
+    //private float MaxTurnRate = 1.0f;
 
     void Update()
     {
@@ -35,6 +38,8 @@ public class Vehicle : MonoBehaviour
         {
             SteeringForce += steeringBehaviour.Calculate();
         }
+
+        SteeringForce = Vector3.ClampMagnitude(SteeringForce, MaxForce);
 
         Vector3 Acceleration = SteeringForce / Mass;
 
