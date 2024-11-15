@@ -10,6 +10,11 @@ public class Seek : SteeringBehaviourBase
     [Tooltip("The location we want to seek to")]
     [SerializeField] private Vector3 TargetPos;
 
+    public Seek(Vector3 TargetPosition)
+    {
+        TargetPos = TargetPosition;
+    }
+
     public override Vector3 Calculate()
     {
         Vehicle vehicle = GetComponent<Vehicle>();
