@@ -86,8 +86,6 @@ public class Zombie : MonoBehaviour
     public void ExecuteBT()
     {
         BTRootNode.Execute();
-
-        //Debug.Log("CYCLE COMPLETE");
     }
 }
 

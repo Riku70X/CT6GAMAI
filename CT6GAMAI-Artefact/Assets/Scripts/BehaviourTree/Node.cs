@@ -96,8 +96,6 @@ public class Selector : CompositeNode
             {
                 rv = children[j].Execute();
 
-                //Debug.Log(CurrentChildIndex + " has " + rv);
-
                 if (rv == BTStatus.RUNNING)
                 {
                     CurrentChildIndex = j;
@@ -113,30 +111,6 @@ public class Selector : CompositeNode
                 }
             }
         }
-
-        //if (CurrentChildIndex < children.Count)
-        //{
-        //    rv = children[CurrentChildIndex].Execute();
-
-        //    if (rv == BTStatus.RUNNING)
-        //    {
-        //        return rv;
-        //    }
-
-        //    if (rv == BTStatus.SUCCESS)
-        //    {
-        //        Reset();
-
-        //        return rv;
-        //    }
-
-        //    if (rv == BTStatus.FAILURE)
-        //    {
-        //        CurrentChildIndex++;
-
-        //        Execute();
-        //    }
-        //}
 
         // exceeded number of children, therefore all returned false
         Reset();
@@ -164,8 +138,6 @@ public class Sequence : CompositeNode
             {
                 rv = children[j].Execute();
 
-                //Debug.Log(CurrentChildIndex + " has " + rv);
-
                 if (rv == BTStatus.RUNNING)
                 {
                     CurrentChildIndex = j;
@@ -181,32 +153,6 @@ public class Sequence : CompositeNode
                 }
             }
         }
-
-        //if (CurrentChildIndex < children.Count)
-        //{
-        //    rv = children[CurrentChildIndex].Execute();
-
-        //    Debug.Log(CurrentChildIndex + " has " + rv);
-
-        //    if (rv == BTStatus.RUNNING)
-        //    {
-        //        return rv;
-        //    }
-
-        //    if (rv == BTStatus.SUCCESS)
-        //    {
-        //        CurrentChildIndex++;
-
-        //        Execute();
-        //    }
-
-        //    if (rv == BTStatus.FAILURE)
-        //    {
-        //        Reset();
-
-        //        return rv;
-        //    }
-        //}
 
         // exceeded number of children, therefore all returned true
         Reset();
