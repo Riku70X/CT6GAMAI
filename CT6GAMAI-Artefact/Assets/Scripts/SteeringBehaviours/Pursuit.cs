@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Returns a force that directs the agent towards a predicted future location of a target agent
 /// </summary>
-public class Persuit : SteeringBehaviourBase
+public class Pursuit : SteeringBehaviourBase
 {
     [Tooltip("The agent we want to persue")]
     [SerializeField] private GameObject Evader;
@@ -17,7 +17,11 @@ public class Persuit : SteeringBehaviourBase
         if (!Evader.TryGetComponent<Vehicle>(out var evaderVehicle))
         {
             Debug.LogError("Persuit::Calculate() has failed - evaderVehicle was null. Evader needs a Vehicle component.");
+
+            return Vector3.zero;
         }
+
+        Seek seek = gameObject.AddComponent<Seek>();
 
         Vector3 toEvader = Evader.transform.position - transform.position;
 
@@ -26,13 +30,21 @@ public class Persuit : SteeringBehaviourBase
         // If facing each other
         if (relativeHeading > 0)
         {
-            Seek seek = new Seek(Evader.transform.position);
+            seek.SetTargetPosition(Evader.transform.position);
+        }
+        else
+        {
+            float lookAheadTine = toEvader.magnitude / (vehicle.GetMaxSpeed() + evaderVehicle.GetSpeed());
 
-            return seek.Calculate();
+            Vector3 evaderFuturePosition = Evader.transform.position + evaderVehicle.GetVelocity() * lookAheadTine;
+
+            seek.SetTargetPosition(evaderFuturePosition);
         }
 
-        float lookAheadTine = toEvader.magnitude / (vehicle.GetMaxSpeed() + evaderVehicle.GetSpeed());
+        Vector3 steeringForce = seek.Calculate();
 
-        return Vector3.one;
+        Destroy(seek);
+
+        return steeringForce;
     }
 }

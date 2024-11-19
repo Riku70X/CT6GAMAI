@@ -15,6 +15,11 @@ public class Seek : SteeringBehaviourBase
         TargetPos = TargetPosition;
     }
 
+    public void SetTargetPosition(Vector3 NewTargetPosition)
+    {
+        TargetPos = NewTargetPosition;
+    }
+
     public override Vector3 Calculate()
     {
         Vehicle vehicle = GetComponent<Vehicle>();
