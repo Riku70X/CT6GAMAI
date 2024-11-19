@@ -14,9 +14,9 @@ public class Flee : SteeringBehaviourBase
     {
         Vehicle vehicle = GetComponent<Vehicle>();
 
-        Vector3 desiredVelocity = (transform.position - TargetPos).normalized * vehicle.MaxSpeed;
+        Vector3 desiredVelocity = (transform.position - TargetPos).normalized * vehicle.GetMaxSpeed();
 
-        Vector3 steeringForce = desiredVelocity - vehicle.Velocity;
+        Vector3 steeringForce = desiredVelocity - vehicle.GetVelocity();
 
         return steeringForce;
     }

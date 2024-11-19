@@ -21,18 +21,18 @@ public class Arrive : SteeringBehaviourBase
 
         float distance = toTarget.magnitude;
 
-        float speed = vehicle.MaxSpeed;
+        float speed = vehicle.GetMaxSpeed();
 
         if (distance < SlowingDistance)
         {
             speed = distance / SlowingDistance;
 
-            speed = Mathf.Clamp(speed, speed, vehicle.MaxSpeed);
+            speed = Mathf.Clamp(speed, speed, vehicle.GetMaxSpeed());
         }
 
         Vector3 desiredVelocity = toTarget.normalized * speed;
 
-        Vector3 steeringForce = desiredVelocity - vehicle.Velocity;
+        Vector3 steeringForce = desiredVelocity - vehicle.GetVelocity();
 
         return steeringForce;
     }

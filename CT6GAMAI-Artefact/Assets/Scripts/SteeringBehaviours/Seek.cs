@@ -19,9 +19,9 @@ public class Seek : SteeringBehaviourBase
     {
         Vehicle vehicle = GetComponent<Vehicle>();
 
-        Vector3 desiredVelocity = (TargetPos - transform.position).normalized * vehicle.MaxSpeed;
+        Vector3 desiredVelocity = (TargetPos - transform.position).normalized * vehicle.GetMaxSpeed();
 
-        Vector3 steeringForce = desiredVelocity - vehicle.Velocity;
+        Vector3 steeringForce = desiredVelocity - vehicle.GetVelocity();
 
         return steeringForce;
     }

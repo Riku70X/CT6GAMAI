@@ -12,6 +12,13 @@ public class Persuit : SteeringBehaviourBase
 
     public override Vector3 Calculate()
     {
+        Vehicle vehicle = GetComponent<Vehicle>();
+
+        if (!Evader.TryGetComponent<Vehicle>(out var evaderVehicle))
+        {
+            Debug.LogError("Persuit::Calculate() has failed - evaderVehicle was null. Evader needs a Vehicle component.");
+        }
+
         Vector3 toEvader = Evader.transform.position - transform.position;
 
         float relativeHeading = Vector3.Dot(transform.forward.normalized, Evader.transform.forward.normalized);
@@ -19,10 +26,12 @@ public class Persuit : SteeringBehaviourBase
         // If facing each other
         if (relativeHeading > 0)
         {
-            Seek seek = new(Evader.transform.position);
+            Seek seek = new Seek(Evader.transform.position);
 
             return seek.Calculate();
         }
+
+        float lookAheadTine = toEvader.magnitude / (vehicle.GetMaxSpeed() + evaderVehicle.GetSpeed());
 
         return Vector3.one;
     }
