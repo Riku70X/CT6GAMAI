@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.SearchService;
 using UnityEngine;
 
 /// <summary>
@@ -9,28 +7,45 @@ using UnityEngine;
 /// </summary>
 public class ObstacleAvoidance : SteeringBehaviourBase
 {
-    [Tooltip("The width of the detection box, equal to the bounds of the agent")]
-    [SerializeField] private float detectionBoxWidth = 0.0f;
-
     [Tooltip("The default length of the detection box. At runtime, it will be proportional to the speed of the agent")]
-    [SerializeField] private float baseDetectionBoxLength = 0.0f;
+    [SerializeField] private float BaseDetectionBoxLength = 1.0f;
 
-    private void Awake()
+    [Tooltip("The width of the detection box, equal to the bounds of the agent")]
+    private float DetectionBoxWidth = 0.0f;
+
+    [Tooltip("Reference to this gameObject's collider component")]
+    private Collider ColliderComponent;
+
+    protected override void Awake()
     {
-        Collider collider = GetComponent<Collider>();
-        detectionBoxWidth = collider.bounds.extents.x;
+        base.Awake();
+
+        if (TryGetComponent(out ColliderComponent))
+        {
+            DetectionBoxWidth = ColliderComponent.bounds.extents.x;
+        }
+        else
+        {
+            Debug.LogError("ObstacleAvoidance::Awake() has failed - gameObject needs to have a collider component");
+        }
     }
 
     public override Vector3 Calculate()
     {
+        float detectionBoxLength = BaseDetectionBoxLength * VehicleComponent.GetSpeed();
+        Vector3 detectionBoxSize = new Vector3(DetectionBoxWidth, 0.0f, detectionBoxLength);
+        Vector3 detectionBoxCentre = new Vector3(0.0f, 0.0f, detectionBoxLength / 2);
+        Quaternion detectionBoxRotation = Quaternion.Euler(transform.forward);
 
+        Collider[] overlappingColliders = Physics.OverlapBox(transform.position + detectionBoxCentre, detectionBoxSize, detectionBoxRotation);
 
-        float detectionBoxLength = baseDetectionBoxLength * VehicleComponent.GetSpeed();
-
-        BoxCollider detectionBox = gameObject.AddComponent<BoxCollider>();
-
-        detectionBox.size = new Vector3(detectionBoxWidth, 0.0f, detectionBoxLength);
-        detectionBox.center = new Vector3(0.0f, 0.0f, detectionBoxLength / 2);
+        foreach (Collider collider in overlappingColliders)
+        {
+            if (collider != ColliderComponent)
+            {
+                Debug.Log(name + " wants to avoid " + collider.name);
+            }
+        }
 
         return Vector3.zero;
     }

@@ -241,6 +241,7 @@ GameObject:
   - component: {fileID: 355381544}
   - component: {fileID: 355381543}
   - component: {fileID: 355381542}
+  - component: {fileID: 355381548}
   m_Layer: 0
   m_Name: SeekVehicle
   m_TagString: Untagged
@@ -365,6 +366,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &355381548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355381541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dec2d720f6d8c43a36c05503fd2ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BaseDetectionBoxLength: 1
 --- !u!1 &752402759
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,6 +393,7 @@ GameObject:
   - component: {fileID: 752402762}
   - component: {fileID: 752402761}
   - component: {fileID: 752402760}
+  - component: {fileID: 752402766}
   m_Layer: 0
   m_Name: WanderVehicle
   m_TagString: Untagged
@@ -505,6 +520,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &752402766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 752402759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dec2d720f6d8c43a36c05503fd2ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BaseDetectionBoxLength: 1
 --- !u!1 &1137079036
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,6 +639,7 @@ GameObject:
   - component: {fileID: 1296837266}
   - component: {fileID: 1296837265}
   - component: {fileID: 1296837264}
+  - component: {fileID: 1296837270}
   m_Layer: 0
   m_Name: FleeVehicle
   m_TagString: Untagged
@@ -735,6 +764,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1296837270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296837263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dec2d720f6d8c43a36c05503fd2ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BaseDetectionBoxLength: 1
 --- !u!1 &1552743707
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,6 +791,7 @@ GameObject:
   - component: {fileID: 1552743710}
   - component: {fileID: 1552743709}
   - component: {fileID: 1552743708}
+  - component: {fileID: 1552743714}
   m_Layer: 0
   m_Name: ArriveVehicle
   m_TagString: Untagged
@@ -874,6 +917,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1552743714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552743707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dec2d720f6d8c43a36c05503fd2ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BaseDetectionBoxLength: 1
 --- !u!1 &1624266506
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,6 +944,7 @@ GameObject:
   - component: {fileID: 1624266507}
   - component: {fileID: 1624266512}
   - component: {fileID: 1624266511}
+  - component: {fileID: 1624266513}
   m_Layer: 0
   m_Name: PursuitVehicle
   m_TagString: Untagged
@@ -1012,6 +1069,19 @@ MonoBehaviour:
   Mass: 1
   MaxSpeed: 3
   MaxForce: 1
+--- !u!114 &1624266513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1624266506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dec2d720f6d8c43a36c05503fd2ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BaseDetectionBoxLength: 1
 --- !u!1 &1636977698
 GameObject:
   m_ObjectHideFlags: 0
@@ -1120,6 +1190,7 @@ GameObject:
   - component: {fileID: 1930733325}
   - component: {fileID: 1930733324}
   - component: {fileID: 1930733323}
+  - component: {fileID: 1930733329}
   m_Layer: 0
   m_Name: EvadeVehicle
   m_TagString: Untagged
@@ -1244,6 +1315,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1930733329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930733322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dec2d720f6d8c43a36c05503fd2ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BaseDetectionBoxLength: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

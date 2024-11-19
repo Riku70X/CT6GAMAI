@@ -19,8 +19,10 @@ public class Wander : SteeringBehaviourBase
     [Tooltip("This is the actual target position; we initialise this to some random value within our WanderRadius at the start using WanderAngle")]
     Vector3 WanderTarget = Vector3.zero;
 
-    void Start()
+    protected override void Awake()
     {
+        base.Awake();
+
         WanderAngle = Random.Range(0.0f, Mathf.PI * 2);
         WanderTarget = new Vector3(Mathf.Cos(WanderAngle), 0, Mathf.Sin(WanderAngle)) * WanderRadius;
     }

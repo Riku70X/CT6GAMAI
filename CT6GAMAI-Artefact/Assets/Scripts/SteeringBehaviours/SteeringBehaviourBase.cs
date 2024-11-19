@@ -11,9 +11,12 @@ public abstract class SteeringBehaviourBase : MonoBehaviour
     [Tooltip("A reference to the Vehicle component on this gameObject")]
     protected Vehicle VehicleComponent;
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        VehicleComponent = GetComponent<Vehicle>();
+        if (!TryGetComponent(out VehicleComponent))
+        {
+            Debug.LogError("SteeringBehaviourBase::Awake() has failed - Could not locate Vehicle Component");
+        }
     }
 
     //Needs to be overidden in child classes
