@@ -34,7 +34,7 @@ public class Vehicle : MonoBehaviour
     [Tooltip("The thrust this agent can produce")]
     [SerializeField] private float MaxForce = 1;
 
-    //[Tooltip("We use this to determine how fast the agent can turn, but just ignore it for, we won't be using it")] [SerializeField]
+    //[Tooltip("We use this to determine how fast the agent can turn, but just ignore it for, we won't be using it")]
     //[SerializeField] private float MaxTurnRate = 1.0f;
 
     void Update()

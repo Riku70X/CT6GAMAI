@@ -12,11 +12,9 @@ public class Pursuit : SteeringBehaviourBase
 
     public override Vector3 Calculate()
     {
-        Vehicle vehicle = GetComponent<Vehicle>();
-
-        if (!Evader.TryGetComponent<Vehicle>(out var evaderVehicle))
+        if (!Evader.TryGetComponent<Vehicle>(out var evaderVehicleComponent))
         {
-            Debug.LogError("Pursuit::Calculate() has failed - evaderVehicle was null. Evader needs a Vehicle component.");
+            Debug.LogError("Pursuit::Calculate() has failed - evaderVehicleComponent was null. Evader needs a Vehicle component.");
 
             return Vector3.zero;
         }
@@ -34,9 +32,9 @@ public class Pursuit : SteeringBehaviourBase
         }
         else
         {
-            float lookAheadTine = toEvader.magnitude / (vehicle.GetMaxSpeed() + evaderVehicle.GetSpeed());
+            float lookAheadTine = toEvader.magnitude / (VehicleComponent.GetMaxSpeed() + evaderVehicleComponent.GetSpeed());
 
-            Vector3 evaderFuturePosition = Evader.transform.position + evaderVehicle.GetVelocity() * lookAheadTine;
+            Vector3 evaderFuturePosition = Evader.transform.position + evaderVehicleComponent.GetVelocity() * lookAheadTine;
 
             seek.SetTargetPosition(evaderFuturePosition);
         }

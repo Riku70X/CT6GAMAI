@@ -22,11 +22,9 @@ public class Seek : SteeringBehaviourBase
 
     public override Vector3 Calculate()
     {
-        Vehicle vehicle = GetComponent<Vehicle>();
+        Vector3 desiredVelocity = (TargetPos - transform.position).normalized * VehicleComponent.GetMaxSpeed();
 
-        Vector3 desiredVelocity = (TargetPos - transform.position).normalized * vehicle.GetMaxSpeed();
-
-        Vector3 steeringForce = desiredVelocity - vehicle.GetVelocity();
+        Vector3 steeringForce = desiredVelocity - VehicleComponent.GetVelocity();
 
         return steeringForce;
     }

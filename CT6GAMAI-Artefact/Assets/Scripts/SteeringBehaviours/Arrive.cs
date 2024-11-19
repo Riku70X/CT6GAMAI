@@ -15,24 +15,22 @@ public class Arrive : SteeringBehaviourBase
 
     public override Vector3 Calculate()
     {
-        Vehicle vehicle = GetComponent<Vehicle>();
-
         Vector3 toTarget = TargetPos - transform.position;
 
         float distance = toTarget.magnitude;
 
-        float speed = vehicle.GetMaxSpeed();
+        float speed = VehicleComponent.GetMaxSpeed();
 
         if (distance < SlowingDistance)
         {
             speed = distance / SlowingDistance;
 
-            speed = Mathf.Clamp(speed, speed, vehicle.GetMaxSpeed());
+            speed = Mathf.Clamp(speed, speed, VehicleComponent.GetMaxSpeed());
         }
 
         Vector3 desiredVelocity = toTarget.normalized * speed;
 
-        Vector3 steeringForce = desiredVelocity - vehicle.GetVelocity();
+        Vector3 steeringForce = desiredVelocity - VehicleComponent.GetVelocity();
 
         return steeringForce;
     }

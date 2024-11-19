@@ -12,8 +12,6 @@ public class Evade : SteeringBehaviourBase
 
     public override Vector3 Calculate()
     {
-        Vehicle vehicle = GetComponent<Vehicle>();
-
         if (!Pursuer.TryGetComponent<Vehicle>(out var pursuerVehicle))
         {
             Debug.LogError("Evade::Calculate() has failed - pursuerVehicle was null. Pursuer needs a Vehicle component.");
@@ -25,7 +23,7 @@ public class Evade : SteeringBehaviourBase
 
         Vector3 toPursuer = Pursuer.transform.position - transform.position;
         
-        float lookAheadTine = toPursuer.magnitude / (vehicle.GetMaxSpeed() + pursuerVehicle.GetSpeed());
+        float lookAheadTine = toPursuer.magnitude / (VehicleComponent.GetMaxSpeed() + pursuerVehicle.GetSpeed());
 
         Vector3 pursuerFuturePosition = Pursuer.transform.position + pursuerVehicle.GetVelocity() * lookAheadTine;
 
