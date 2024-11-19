@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class Pursuit : SteeringBehaviourBase
 {
-    [Tooltip("The agent we want to persue")]
+    [Tooltip("The agent we want to pursue")]
     [SerializeField] private GameObject Evader;
 
     public override Vector3 Calculate()
@@ -16,7 +16,7 @@ public class Pursuit : SteeringBehaviourBase
 
         if (!Evader.TryGetComponent<Vehicle>(out var evaderVehicle))
         {
-            Debug.LogError("Persuit::Calculate() has failed - evaderVehicle was null. Evader needs a Vehicle component.");
+            Debug.LogError("Pursuit::Calculate() has failed - evaderVehicle was null. Evader needs a Vehicle component.");
 
             return Vector3.zero;
         }

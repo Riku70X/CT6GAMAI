@@ -10,6 +10,16 @@ public class Flee : SteeringBehaviourBase
     [Tooltip("The location we want to flee from")]
     [SerializeField] private Vector3 TargetPos;
 
+    public Flee(Vector3 TargetPosition)
+    {
+        TargetPos = TargetPosition;
+    }
+
+    public void SetTargetPosition(Vector3 NewTargetPosition)
+    {
+        TargetPos = NewTargetPosition;
+    }
+
     public override Vector3 Calculate()
     {
         Vehicle vehicle = GetComponent<Vehicle>();
