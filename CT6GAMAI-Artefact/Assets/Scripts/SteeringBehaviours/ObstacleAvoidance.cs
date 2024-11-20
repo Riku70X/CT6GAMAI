@@ -44,17 +44,31 @@ public class ObstacleAvoidance : SteeringBehaviourBase
 
         Collider closestCollider = overlappingColliders[0];
 
+        float shortestDistance = Vector3.Distance(transform.position, closestCollider.ClosestPoint(transform.position));
+
         foreach (Collider collider in overlappingColliders)
         {
-            if (collider != ColliderComponent)
+            if (collider != ColliderComponent) //ignore own collider
             {
                 Debug.Log(name + " wants to avoid " + collider.name);
-            }
 
-            //if (collider.ClosestPoint(transform.position) > collider.smal );
+                float distance = Vector3.Distance(transform.position, collider.ClosestPoint(transform.position));
+
+                if (distance < shortestDistance)
+                {
+                    closestCollider = collider;
+                    shortestDistance = distance;
+                }
+            }
         }
 
-        return Vector3.zero;
+        float forceMultiplier = 1 + (detectionBoxLength - shortestDistance) / detectionBoxLength;
+
+        float steeringForce; // = trig maths for (-1 to 1) value, then * by forceMultiplier
+
+        Vector3 STEERINTGAEGEA = transform.right * forceMultiplier;
+
+        return STEERINTGAEGEA;
     }
 
     private void OnDrawGizmos()
