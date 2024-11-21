@@ -10,27 +10,48 @@ public class WallAvoidance : SteeringBehaviourBase
     [Tooltip("The default length of the line traces. At runtime, it will be proportional to the speed of the agent.")]
     [SerializeField] private float BaseLineTraceLength = 1.0f;
 
+    [Tooltip("The name of Layer used by walls. This should match the Wall layer name in the project files ('Tags & Layers').")]
+    private readonly string WallLayerName = "Wall";
+
+    [Tooltip("The layer mask used by walls.")]
+    private int WallLayerMask;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        WallLayerMask = 1 << LayerMask.NameToLayer(WallLayerName);
+    }
+
     public override Vector3 Calculate()
     {
         Vector3 steeringForce = Vector3.zero;
 
         Vector3 traceStartLocation = transform.position;
 
-        float lineTraceLength = BaseLineTraceLength * VehicleComponent.GetSpeed();
+        float lineTraceLength = BaseLineTraceLength; /* VehicleComponent.GetSpeed();*/
 
-        //for (int i = 0; i < 3; i++)
-        //{
-        Vector3 traceDirection = transform.forward * lineTraceLength;
+        for (int i = -1; i < 2; i++)
+        {
+            Vector3 traceDirection = transform.forward * lineTraceLength;
 
-        Vector3 traceEndLocation = traceStartLocation + traceDirection;
+            traceDirection = Quaternion.Euler(0, i * 40, 0) * traceDirection;
 
-        Physics.Linecast(traceStartLocation, traceEndLocation, out RaycastHit hit);
+            Vector3 traceEndLocation = traceStartLocation + traceDirection;
 
-        float penetrationDistance = lineTraceLength - hit.distance;
+            Debug.DrawLine(traceStartLocation, traceEndLocation, Color.green);
+            if (Physics.Linecast(traceStartLocation, traceEndLocation, out RaycastHit hit, WallLayerMask))
+            {
+                float penetrationDistance = lineTraceLength - hit.distance;
 
-        steeringForce += hit.normal * penetrationDistance;
+                float forceMultipler = penetrationDistance / hit.distance;
 
-        //}
+                steeringForce += hit.normal * penetrationDistance;
+            }
+
+        }
+
+        //Debug.Log("Wall: " + steeringForce);
 
         return steeringForce;
     }

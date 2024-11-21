@@ -97,17 +97,17 @@ public class ObstacleAvoidance : SteeringBehaviourBase
         return Vector3.zero;
     }
 
-    private void OnDrawGizmos()
-    {
-        if (!Application.isPlaying) return;
+    //private void OnDrawGizmos()
+    //{
+    //    if (!Application.isPlaying) return;
 
-        float detectionBoxLength = BaseDetectionBoxLength * VehicleComponent.GetSpeed();
+    //    float detectionBoxLength = BaseDetectionBoxLength * VehicleComponent.GetSpeed();
 
-        Vector3 detectionBoxExtents = new(DetectionBoxWidth, DetectionBoxHeight, detectionBoxLength);
+    //    Vector3 detectionBoxExtents = new(DetectionBoxWidth, DetectionBoxHeight, detectionBoxLength);
 
-        Vector3 localDetectionBoxCentre = new(0.0f, 0.0f, detectionBoxLength);
+    //    Vector3 localDetectionBoxCentre = new(0.0f, 0.0f, detectionBoxLength);
 
-        Gizmos.matrix = transform.localToWorldMatrix;
-        Gizmos.DrawWireCube(localDetectionBoxCentre, detectionBoxExtents * 2);
-    }
+    //    Gizmos.matrix = transform.localToWorldMatrix;
+    //    Gizmos.DrawWireCube(localDetectionBoxCentre, detectionBoxExtents * 2);
+    //}
 }

@@ -28,4 +28,9 @@ public class Seek : SteeringBehaviourBase
 
         return steeringForce;
     }
+
+    public static Vector3 SeekToLocation(Vehicle VehicleComponent, Vector3 CurrentPosition, Vector3 TargetPosition)
+    {
+        return Vector3.zero;
+    }
 }

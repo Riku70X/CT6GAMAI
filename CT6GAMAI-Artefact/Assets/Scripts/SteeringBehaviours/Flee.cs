@@ -26,6 +26,8 @@ public class Flee : SteeringBehaviourBase
 
         Vector3 steeringForce = desiredVelocity - VehicleComponent.GetVelocity();
 
+        //Debug.Log("Flee: " + steeringForce);
+
         return steeringForce;
     }
 }
