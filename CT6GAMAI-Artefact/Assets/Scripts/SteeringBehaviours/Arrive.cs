@@ -11,7 +11,7 @@ public class Arrive : SteeringBehaviourBase
     [SerializeField] private Vector3 TargetPos;
 
     [Tooltip("The distance at which we begin to slow down")]
-    [SerializeField] private float SlowingDistance;
+    [SerializeField] private float SlowingDistance = 10;
 
     public override Vector3 Calculate()
     {

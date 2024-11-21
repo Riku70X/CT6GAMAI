@@ -8,7 +8,7 @@ public class Wander : SteeringBehaviourBase
     [SerializeField] private float WanderRadius = 10f;
 
     [Tooltip("This is the distance in front of the agent we move the circle")]
-    [SerializeField] private float WanderDistance = 10f;
+    [SerializeField] private float WanderDistance = 20f;
 
     [Tooltip("This is the amount of random displacement we can have in a single second")]
     [SerializeField] private float WanderJitter = 1f;
