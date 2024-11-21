@@ -167,4 +167,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d011178877b03c4dbf468b53418bb65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BaseLineTraceLength: 1
+  BaseLineTraceLength: 5

@@ -10,27 +10,22 @@ public class Seek : SteeringBehaviourBase
     [Tooltip("The location we want to seek to")]
     [SerializeField] private Vector3 TargetPos;
 
-    public Seek(Vector3 TargetPosition)
-    {
-        TargetPos = TargetPosition;
-    }
-
-    public void SetTargetPosition(Vector3 NewTargetPosition)
-    {
-        TargetPos = NewTargetPosition;
-    }
-
     public override Vector3 Calculate()
     {
-        Vector3 desiredVelocity = (TargetPos - transform.position).normalized * VehicleComponent.GetMaxSpeed();
+        return GetSeekingForceToLocation(VehicleComponent, transform.position, TargetPos);
+    }
+
+    /// <summary>
+    /// Returns a force that directs the agent towards a target position
+    /// </summary>
+    /// <param name="TargetPosition">The location we are seeking to.</param>
+    /// <returns></returns>
+    public static Vector3 GetSeekingForceToLocation(Vehicle VehicleComponent, Vector3 CurrentPosition, Vector3 TargetPosition)
+    {
+        Vector3 desiredVelocity = (TargetPosition - CurrentPosition).normalized * VehicleComponent.GetMaxSpeed();
 
         Vector3 steeringForce = desiredVelocity - VehicleComponent.GetVelocity();
 
         return steeringForce;
-    }
-
-    public static Vector3 SeekToLocation(Vehicle VehicleComponent, Vector3 CurrentPosition, Vector3 TargetPosition)
-    {
-        return Vector3.zero;
     }
 }

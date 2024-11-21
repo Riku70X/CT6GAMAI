@@ -19,16 +19,16 @@ public class Pursuit : SteeringBehaviourBase
             return Vector3.zero;
         }
 
-        Seek seek = gameObject.AddComponent<Seek>();
-
         Vector3 toEvader = Evader.transform.position - transform.position;
 
         float relativeHeading = Vector3.Dot(transform.forward.normalized, Evader.transform.forward.normalized);
 
+        Vector3 steeringForce;
+
         // If facing each other
         if (relativeHeading > 0)
         {
-            seek.SetTargetPosition(Evader.transform.position);
+            steeringForce = Seek.GetSeekingForceToLocation(VehicleComponent, transform.position, Evader.transform.position);
         }
         else
         {
@@ -36,12 +36,8 @@ public class Pursuit : SteeringBehaviourBase
 
             Vector3 evaderFuturePosition = Evader.transform.position + evaderVehicleComponent.GetVelocity() * lookAheadTine;
 
-            seek.SetTargetPosition(evaderFuturePosition);
+            steeringForce = Seek.GetSeekingForceToLocation(VehicleComponent, transform.position, evaderFuturePosition);
         }
-
-        Vector3 steeringForce = seek.Calculate();
-
-        Destroy(seek);
 
         return steeringForce;
     }

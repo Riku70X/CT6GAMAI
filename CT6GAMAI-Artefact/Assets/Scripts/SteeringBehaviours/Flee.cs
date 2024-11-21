@@ -10,23 +10,21 @@ public class Flee : SteeringBehaviourBase
     [Tooltip("The location we want to flee from")]
     [SerializeField] private Vector3 TargetPos;
 
-    public Flee(Vector3 TargetPosition)
-    {
-        TargetPos = TargetPosition;
-    }
-
-    public void SetTargetPosition(Vector3 NewTargetPosition)
-    {
-        TargetPos = NewTargetPosition;
-    }
-
     public override Vector3 Calculate()
     {
-        Vector3 desiredVelocity = (transform.position - TargetPos).normalized * VehicleComponent.GetMaxSpeed();
+        return GetFleeingForceFromLocation(VehicleComponent, transform.position, TargetPos);
+    }
+
+    /// <summary>
+    /// Returns a force that directs the agent away from a target position
+    /// </summary>
+    /// <param name="TargetPosition">The location we are fleeing from.</param>
+    /// <returns></returns>
+    public static Vector3 GetFleeingForceFromLocation(Vehicle VehicleComponent, Vector3 CurrentPosition, Vector3 TargetPosition)
+    {
+        Vector3 desiredVelocity = (CurrentPosition - TargetPosition).normalized * VehicleComponent.GetMaxSpeed();
 
         Vector3 steeringForce = desiredVelocity - VehicleComponent.GetVelocity();
-
-        //Debug.Log("Flee: " + steeringForce);
 
         return steeringForce;
     }

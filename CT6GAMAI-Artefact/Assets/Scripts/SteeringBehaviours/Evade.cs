@@ -19,19 +19,13 @@ public class Evade : SteeringBehaviourBase
             return Vector3.zero;
         }
 
-        Flee flee = gameObject.AddComponent<Flee>();
-
         Vector3 toPursuer = Pursuer.transform.position - transform.position;
         
         float lookAheadTine = toPursuer.magnitude / (VehicleComponent.GetMaxSpeed() + pursuerVehicle.GetSpeed());
 
         Vector3 pursuerFuturePosition = Pursuer.transform.position + pursuerVehicle.GetVelocity() * lookAheadTine;
 
-        flee.SetTargetPosition(pursuerFuturePosition);
-
-        Vector3 steeringForce = flee.Calculate();
-
-        Destroy(flee);
+        Vector3 steeringForce = Flee.GetFleeingForceFromLocation(VehicleComponent, transform.position, pursuerFuturePosition);
 
         return steeringForce;
     }
