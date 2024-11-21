@@ -50,6 +50,8 @@ public class Vehicle : MonoBehaviour
 
         steeringForce = Vector3.ClampMagnitude(steeringForce, MaxForce);
 
+        Debug.DrawRay(transform.position, steeringForce, Color.green);
+
         Vector3 acceleration = steeringForce / Mass;
 
         Velocity += acceleration * Time.deltaTime;
