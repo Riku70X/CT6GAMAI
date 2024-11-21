@@ -45,10 +45,13 @@ public class Vehicle : MonoBehaviour
         SteeringBehaviourBase[] steeringBehaviours = GetComponents<SteeringBehaviourBase>();
         foreach (SteeringBehaviourBase steeringBehaviour in steeringBehaviours)
         {
+            //Debug.DrawRay(transform.position, steeringBehaviour.Calculate());
             steeringForce += steeringBehaviour.Calculate();
         }
 
         steeringForce = Vector3.ClampMagnitude(steeringForce, MaxForce);
+
+        //Debug.DrawRay(transform.position, steeringForce);
 
         Vector3 acceleration = steeringForce / Mass;
 

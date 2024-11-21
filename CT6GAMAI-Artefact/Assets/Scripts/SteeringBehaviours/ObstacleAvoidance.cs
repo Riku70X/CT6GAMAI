@@ -13,8 +13,14 @@ public class ObstacleAvoidance : SteeringBehaviourBase
     [Tooltip("The width of the detection box, equal to the width of the agent's collider. Measured from the centre.")]
     private float DetectionBoxWidth = 0.0f;
 
+    [Tooltip("The height of the detection box, equal to the height of the agent's collider. Measured from the centre.")]
+    private float DetectionBoxHeight = 0.0f;
+
     [Tooltip("Reference to this gameObject's collider component")]
     private Collider ColliderComponent;
+
+    [Tooltip("ObstacleAvoidance will cause agents to avoid Game Objects tagged with this")]
+    private readonly string ObstacleTag = "Obstacle";
 
     protected override void Awake()
     {
@@ -23,6 +29,7 @@ public class ObstacleAvoidance : SteeringBehaviourBase
         if (TryGetComponent(out ColliderComponent))
         {
             DetectionBoxWidth = ColliderComponent.bounds.extents.x;
+            DetectionBoxHeight = ColliderComponent.bounds.extents.y;
         }
         else
         {
@@ -34,41 +41,60 @@ public class ObstacleAvoidance : SteeringBehaviourBase
     {
         float detectionBoxLength = BaseDetectionBoxLength * VehicleComponent.GetSpeed();
 
-        Vector3 detectionBoxExtents = new(DetectionBoxWidth, 0.0f, detectionBoxLength);
+        Vector3 detectionBoxExtents = new(DetectionBoxWidth, DetectionBoxHeight, detectionBoxLength);
+        Vector3 worldDetectionBoxCentre = transform.forward * detectionBoxLength;
+        Quaternion detectionBoxRotation = Quaternion.LookRotation(transform.forward, transform.up);
 
-        Vector3 relativeDetectionBoxCentre = new(0.0f, 0.0f, detectionBoxLength);
+        Collider[] overlappingColliders = Physics.OverlapBox(transform.position + worldDetectionBoxCentre, detectionBoxExtents, detectionBoxRotation);
 
-        Quaternion detectionBoxRotation = Quaternion.Euler(transform.forward);
-
-        Collider[] overlappingColliders = Physics.OverlapBox(transform.position + relativeDetectionBoxCentre, detectionBoxExtents, detectionBoxRotation);
-
-        Collider closestCollider = overlappingColliders[0];
-
-        float shortestDistance = Vector3.Distance(transform.position, closestCollider.ClosestPoint(transform.position));
-
+        List<Collider> obstacles = new();
         foreach (Collider collider in overlappingColliders)
         {
-            if (collider != ColliderComponent) //ignore own collider
+            if (collider.CompareTag(ObstacleTag))
             {
-                Debug.Log(name + " wants to avoid " + collider.name);
-
-                float distance = Vector3.Distance(transform.position, collider.ClosestPoint(transform.position));
-
-                if (distance < shortestDistance)
-                {
-                    closestCollider = collider;
-                    shortestDistance = distance;
-                }
+                obstacles.Add(collider);
             }
         }
 
-        float forceMultiplier = 1 + (detectionBoxLength - shortestDistance) / detectionBoxLength;
+        if (obstacles.Count > 0)
+        {
+            Collider closestObstacle = obstacles[0];
+            float shortestDistance = Vector3.Distance(transform.position, closestObstacle.ClosestPoint(transform.position));
 
-        float steeringForce; // = trig maths for (-1 to 1) value, then * by forceMultiplier
+            foreach (Collider obstacle in obstacles)
+            {
+                if (obstacle != ColliderComponent) //ignore own collider
+                {
+                    float distance = Vector3.Distance(transform.position, obstacle.ClosestPoint(transform.position));
+                    if (distance < shortestDistance)
+                    {
+                        closestObstacle = obstacle;
+                        shortestDistance = distance;
+                    }
+                }
+            }
 
-        Vector3 STEERINTGAEGEA = transform.right * forceMultiplier;
+            if (closestObstacle == ColliderComponent) return Vector3.zero; //return if only obstacle found is own collider 
 
-        return STEERINTGAEGEA;
+            Vector3 toObstacle = closestObstacle.transform.position - transform.position;
+
+            if (detectionBoxLength == 0.0f) return Vector3.zero; //shouldn't be possible, but here to prevent a NaN
+
+            float forceMultiplier = 1 + (detectionBoxLength - shortestDistance) / detectionBoxLength;
+
+            forceMultiplier *= Vector3.Dot(VehicleComponent.GetVelocity(), toObstacle);
+
+            Vector3 steeringForce = transform.right * forceMultiplier;
+
+            if (Vector3.Dot(toObstacle, transform.right) > 0)
+            {
+                steeringForce *= -1;
+            }
+
+            return steeringForce;
+        }
+
+        return Vector3.zero;
     }
 
     private void OnDrawGizmos()
@@ -77,11 +103,11 @@ public class ObstacleAvoidance : SteeringBehaviourBase
 
         float detectionBoxLength = BaseDetectionBoxLength * VehicleComponent.GetSpeed();
 
-        Vector3 detectionBoxExtents = new(DetectionBoxWidth, 0.0f, detectionBoxLength);
+        Vector3 detectionBoxExtents = new(DetectionBoxWidth, DetectionBoxHeight, detectionBoxLength);
 
-        Vector3 relativeDetectionBoxCentre = new(0.0f, 0.0f, detectionBoxLength);
+        Vector3 localDetectionBoxCentre = new(0.0f, 0.0f, detectionBoxLength);
 
         Gizmos.matrix = transform.localToWorldMatrix;
-        Gizmos.DrawWireCube(relativeDetectionBoxCentre, detectionBoxExtents * 2);
+        Gizmos.DrawWireCube(localDetectionBoxCentre, detectionBoxExtents * 2);
     }
 }
