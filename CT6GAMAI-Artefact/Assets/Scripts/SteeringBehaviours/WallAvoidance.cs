@@ -13,7 +13,7 @@ public class WallAvoidance : SteeringBehaviourBase
     [Tooltip("The angle of the side detection whiskers (degrees)")]
     [SerializeField] private float SecondaryTraceAngleOffset = 40.0f;
 
-    [Tooltip("The name of Layer used by walls. This should match the Wall layer name in the project files ('Tags & Layers').")]
+    [Tooltip("The name of the Layer used by walls. This should match the Wall layer name in the project files ('Tags & Layers').")]
     private readonly string WallLayerName = "Wall";
 
     [Tooltip("The layer mask used by walls.")]
