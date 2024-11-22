@@ -26,10 +26,6 @@ public class ObstacleAvoidance : SteeringBehaviourBase
     [Tooltip("The layer mask used by obstacles.")]
     private int ObstacleLayerMask;
 
-    //TODO: Move this variable somewhere else
-    [Tooltip("ObstacleAvoidance will cause agents to avoid Game Objects tagged with this")]
-    public readonly static string ObstacleTag = "Obstacle";
-
     protected override void Awake()
     {
         base.Awake();
@@ -55,8 +51,7 @@ public class ObstacleAvoidance : SteeringBehaviourBase
         Vector3 worldDetectionBoxCentre = transform.forward * detectionBoxLength;
         Quaternion detectionBoxRotation = Quaternion.LookRotation(transform.forward, transform.up);
 
-        //GetAllTaggedObjectsInBox(ObstacleTag, transform.position + worldDetectionBoxCentre, detectionBoxExtents, detectionBoxRotation);
-
+        //expensive to call every frame...
         Collider[] obstacles = Physics.OverlapBox(transform.position + worldDetectionBoxCentre, detectionBoxExtents, detectionBoxRotation, ObstacleLayerMask);
 
         if (obstacles.Length > 0)
@@ -100,68 +95,17 @@ public class ObstacleAvoidance : SteeringBehaviourBase
         return Vector3.zero;
     }
 
-
-    //TODO: Move this function somewhere else
-    /// <summary>
-    /// Returns a List of every collider within the box with the passed in tag
-    /// </summary>
-    /// <param name="Tag">The tag of the objects you want to collect</param>
-    /// <param name="CentrePoint">The location of the centre of the box (World Space)</param>
-    /// <param name="Extents">The extents of the box from the centre (e.g. half the width, half the height, etc.)</param>
-    /// <param name="Orientation">The rotation of the box about its centre. Quaternion.LookRotation() is useful for calculating this.</param>
-    /// <returns>List of colliders</returns>
-    public static List<Collider> GetAllTaggedObjectsInBox(string Tag, Vector3 CentrePoint, Vector3 Extents, [Optional] Quaternion Orientation)
+    private void OnDrawGizmos()
     {
-        Collider[] overlappingColliders = Physics.OverlapBox(CentrePoint, Extents, Orientation);
+        if (!Application.isPlaying) return;
 
-        List<Collider> taggedObjects = new();
-        foreach (Collider collider in overlappingColliders)
-        {
-            if (collider.CompareTag(Tag))
-            {
-                taggedObjects.Add(collider);
-            }
-        }
+        float detectionBoxLength = BaseDetectionBoxLength * VehicleComponent.GetSpeed();
 
-        return taggedObjects;
+        Vector3 detectionBoxExtents = new(DetectionBoxWidth, DetectionBoxHeight, detectionBoxLength);
+
+        Vector3 localDetectionBoxCentre = new(0.0f, 0.0f, detectionBoxLength);
+
+        Gizmos.matrix = transform.localToWorldMatrix;
+        Gizmos.DrawWireCube(localDetectionBoxCentre, detectionBoxExtents * 2);
     }
-
-    //TODO: Move this function somewhere else
-    /// <summary>
-    /// Returns a List of every collider within the box with the passed in tag
-    /// </summary>
-    /// <param name="Tag">The tag of the objects you want to collect</param>
-    /// <param name="CentrePoint">The location of the centre of the box (World Space)</param>
-    /// <param name="Extents">The extents of the box from the centre (e.g. half the width, half the height, etc.)</param>
-    /// <param name="Orientation">The rotation of the box about its centre. Quaternion.LookRotation() is useful for calculating this.</param>
-    /// <returns>List of colliders</returns>
-    //public static List<Collider> GetAllTaggedObjectsInSphere(string Tag, Vector3 CentrePoint, Vector3 Extents, [Optional] Quaternion Orientation)
-    //{
-    //    Collider[] overlappingColliders = Physics.OverlapSphere()
-
-    //    List<Collider> taggedObjects = new();
-    //    foreach (Collider collider in overlappingColliders)
-    //    {
-    //        if (collider.CompareTag(Tag))
-    //        {
-    //            taggedObjects.Add(collider);
-    //        }
-    //    }
-
-    //    return taggedObjects;
-    //}
-
-    //private void OnDrawGizmos()
-    //{
-    //    if (!Application.isPlaying) return;
-
-    //    float detectionBoxLength = BaseDetectionBoxLength * VehicleComponent.GetSpeed();
-
-    //    Vector3 detectionBoxExtents = new(DetectionBoxWidth, DetectionBoxHeight, detectionBoxLength);
-
-    //    Vector3 localDetectionBoxCentre = new(0.0f, 0.0f, detectionBoxLength);
-
-    //    Gizmos.matrix = transform.localToWorldMatrix;
-    //    Gizmos.DrawWireCube(localDetectionBoxCentre, detectionBoxExtents * 2);
-    //}
 }
