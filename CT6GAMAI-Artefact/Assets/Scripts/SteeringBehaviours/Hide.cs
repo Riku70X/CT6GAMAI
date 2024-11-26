@@ -14,7 +14,10 @@ public class Hide : SteeringBehaviourBase
     [SerializeField] private float SearchRadius = 50.0f;
 
     [Tooltip("The distance away from an obstacle's edge where an agent will hide")]
-    [SerializeField] private float DistanceFromObstacle = 10.0f;
+    [SerializeField] private float DistanceFromObstacle = 1.0f;
+
+    [Tooltip("The distance from the hiding spot where we begin to slow down")]
+    [SerializeField] private float SlowingDistance = 1.0f;
 
     // Obstacle Layer logic taken from ObstacleAvoidance.cs... maybe this could be stored elsewhere?
     [Tooltip("The name of the Layer used by obstacles. This should match the Obstacle layer name in the project files ('Tags & Layers').")]
@@ -60,7 +63,7 @@ public class Hide : SteeringBehaviourBase
         }
         else
         {
-            steeringForce = Seek.GetSeekingForceToLocation(VehicleComponent, transform.position, bestHidingSpot);
+            steeringForce = Arrive.GetArrivingForceToLocation(VehicleComponent, transform.position, bestHidingSpot, SlowingDistance);
         }
 
         return steeringForce;
