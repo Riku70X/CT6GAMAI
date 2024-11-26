@@ -19,7 +19,6 @@ public class Flee : SteeringBehaviourBase
     /// Returns a force that directs the agent away from a target position
     /// </summary>
     /// <param name="TargetPosition">The location we are fleeing from.</param>
-    /// <returns></returns>
     public static Vector3 GetFleeingForceFromLocation(Vehicle VehicleComponent, Vector3 CurrentPosition, Vector3 TargetPosition)
     {
         Vector3 desiredVelocity = (CurrentPosition - TargetPosition).normalized * VehicleComponent.GetMaxSpeed();

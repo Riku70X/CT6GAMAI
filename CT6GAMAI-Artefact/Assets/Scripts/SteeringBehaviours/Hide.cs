@@ -18,7 +18,7 @@ public class Hide : SteeringBehaviourBase
 
     // Obstacle Layer logic taken from ObstacleAvoidance.cs... maybe this could be stored elsewhere?
     [Tooltip("The name of the Layer used by obstacles. This should match the Obstacle layer name in the project files ('Tags & Layers').")]
-    private readonly string ObstacleLayerName = "Obstacle";
+    private const string ObstacleLayerName = "Obstacle";
 
     [Tooltip("The layer mask used by obstacles.")]
     private int ObstacleLayerMask;
@@ -35,6 +35,8 @@ public class Hide : SteeringBehaviourBase
         //expensive to call every frame...
         Collider[] obstacles = Physics.OverlapSphere(transform.position, SearchRadius, ObstacleLayerMask);
 
+        Vector3 bestHidingSpot = Vector3.zero;
+
         foreach (Collider obstacle in obstacles)
         {
             float distanceAway = obstacle.bounds.extents.magnitude + DistanceFromObstacle;
@@ -42,8 +44,25 @@ public class Hide : SteeringBehaviourBase
             Vector3 enemyToObstacle = (obstacle.transform.position - Enemy.transform.position).normalized;
 
             Vector3 hidingSpot = (enemyToObstacle * distanceAway) + obstacle.transform.position;
+
+            if (Vector3.Distance(transform.position, hidingSpot) < Vector3.Distance(transform.position, bestHidingSpot))
+            {
+                bestHidingSpot = hidingSpot;
+            }
         }
 
-        throw new System.NotImplementedException();
+        Vector3 steeringForce;
+
+        // No hiding spot was found
+        if (bestHidingSpot == Vector3.zero) 
+        {
+            steeringForce = Evade.GetEvadingForceFromAgent(VehicleComponent, transform.position, Enemy);
+        }
+        else
+        {
+            steeringForce = Seek.GetSeekingForceToLocation(VehicleComponent, transform.position, bestHidingSpot);
+        }
+
+        return steeringForce;
     }
 }

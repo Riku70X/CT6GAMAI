@@ -21,7 +21,7 @@ public class ObstacleAvoidance : SteeringBehaviourBase
     private Collider ColliderComponent;
 
     [Tooltip("The name of the Layer used by obstacles. This should match the Obstacle layer name in the project files ('Tags & Layers').")]
-    private readonly string ObstacleLayerName = "Obstacle";
+    private const string ObstacleLayerName = "Obstacle";
 
     [Tooltip("The layer mask used by obstacles.")]
     private int ObstacleLayerMask;

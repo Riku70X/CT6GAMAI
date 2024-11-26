@@ -14,7 +14,7 @@ public class WallAvoidance : SteeringBehaviourBase
     [SerializeField] private float SecondaryTraceAngleOffset = 40.0f;
 
     [Tooltip("The name of the Layer used by walls. This should match the Wall layer name in the project files ('Tags & Layers').")]
-    private readonly string WallLayerName = "Wall";
+    private const string WallLayerName = "Wall";
 
     [Tooltip("The layer mask used by walls.")]
     private int WallLayerMask;
