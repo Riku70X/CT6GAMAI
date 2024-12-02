@@ -56,22 +56,31 @@ public class Vehicle : MonoBehaviour
     {
         Vector3 steeringForce = Vector3.zero;
 
-        SteeringBehaviourBase[] drivingBehaviours = GetComponents<DrivingBehaviourBase>();
+        DrivingBehaviourBase[] drivingBehaviours = GetComponents<DrivingBehaviourBase>();
         AvoidanceBehaviourBase[] avoidanceBehaviours = GetComponents<AvoidanceBehaviourBase>();
-        FlockingBehaviourBase[] flockingBehaviours = GetComponents< FlockingBehaviourBase>();
+        FlockingBehaviourBase[] flockingBehaviours = GetComponents<FlockingBehaviourBase>();
 
         //Prioritise avoidance over flocking, and flocking over driving
 
         foreach (AvoidanceBehaviourBase avoidanceBehaviour in avoidanceBehaviours)
         {
-            steeringForce += avoidanceBehaviour.Calculate();
+            bool bSucceeded = AccumulateForce(ref steeringForce, avoidanceBehaviour.Calculate());
+            if (!bSucceeded) break; // exit the loop if already full
         }
 
         foreach (FlockingBehaviourBase flockingBehaviour in flockingBehaviours)
         {
-            steeringForce += flockingBehaviour.Calculate();
+            bool bSucceeded = AccumulateForce(ref steeringForce, flockingBehaviour.Calculate());
+            if (!bSucceeded) break; // exit the loop if already full
         }
 
+        foreach (DrivingBehaviourBase drivingBehaviour in drivingBehaviours)
+        {
+            bool bSucceeded = AccumulateForce(ref steeringForce, drivingBehaviour.Calculate());
+            if (!bSucceeded) break; // exit the loop if already full
+        }
+
+        // ensure
         steeringForce = Vector3.ClampMagnitude(steeringForce, MaxForce);
 
         Debug.DrawRay(transform.position, steeringForce, Color.green);
@@ -92,8 +101,32 @@ public class Vehicle : MonoBehaviour
         //transform.right should update on its own once we update the transform.forward
     }
 
-    private void AccumulateForce(ref Vector3 RunningSum, Vector3 ForceToAdd)
+    /// <summary>
+    /// Adds the force to the running sum, up until the maximum force is reached.
+    /// </summary>
+    /// <param name="RunningSum">The cumulative force we are adding to</param>
+    /// <param name="ForceToAdd">The force we are adding</param>
+    /// <returns>True if we added a force, false if the sum was already full</returns>
+    private bool AccumulateForce(ref Vector3 RunningSum, Vector3 ForceToAdd)
     {
         float MagnitudeSoFar = RunningSum.magnitude;
+
+        float MagnitudeRemaining = MaxForce - MagnitudeSoFar;
+
+        if (MagnitudeRemaining <= 0)
+        {
+            return false;
+        }
+
+        if (ForceToAdd.magnitude <= MagnitudeRemaining)
+        {
+            RunningSum += ForceToAdd;
+        }
+        else
+        {
+            RunningSum += ForceToAdd.normalized * MagnitudeRemaining;
+        }
+
+        return true;
     }
 }
