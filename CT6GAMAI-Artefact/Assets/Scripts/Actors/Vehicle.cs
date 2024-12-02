@@ -15,8 +15,12 @@ public class Vehicle : MonoBehaviour
     public float GetMaxSpeed() { return MaxSpeed; }
     public float GetMaxForce() { return MaxForce; }
     //public float GetMaxTurnRate() { return MaxTurnRate; }
+    public float GetVisionRadius() { return VisionRadius; }
+    public float GetVisionAngle() { return VisionAngle; }
 
     //"Updated" Values
+
+    [Header("Read Only")]
 
     [Tooltip("This is applied to the current position every frame")]
     [SerializeField] private Vector3 Velocity;
@@ -24,6 +28,8 @@ public class Vehicle : MonoBehaviour
     //Position, Heading and Side can be accessed from the transform component with transform.position, transform.forward and transform.right respectively
 
     //"Constant" values, they are serialized so we can adjust them through the editor
+
+    [Header("Base Stats")]
 
     [Tooltip("Represents the weight of an object, will effect its acceleration")]
     [SerializeField] private float Mass = 1;
@@ -36,6 +42,15 @@ public class Vehicle : MonoBehaviour
 
     //[Tooltip("We use this to determine how fast the agent can turn, but just ignore it for, we won't be using it")]
     //[SerializeField] private float MaxTurnRate = 1.0f;
+
+    [Header("Flocking Stats")]
+
+    [Tooltip("The radius around the agent that we search for neighbours")]
+    [SerializeField] private float VisionRadius = 15.0f;
+
+    [Tooltip("The side angle of vision of the agent has (180 degrees -> can see directly behind)")]
+    [Range(0.0f, 180.0f)]
+    [SerializeField] private float VisionAngle = 135.0f;
 
     void Update()
     {
