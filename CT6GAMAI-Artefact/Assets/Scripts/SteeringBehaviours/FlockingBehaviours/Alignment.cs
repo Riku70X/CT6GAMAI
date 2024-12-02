@@ -12,8 +12,20 @@ public class Alignment : SteeringBehaviourBase
         Vector3 steeringForce = Vector3.zero;
         Vector3 averageHeading = Vector3.zero;
 
-        //GameObject[] neighbours = GlobalSteeringFunctions.GetAllNearbyAgents(gameObject, VisionRadius, VisionAngle * Mathf.Deg2Rad);
+        GameObject[] neighbours = GlobalSteeringFunctions.GetAllNearbyAgents(gameObject, VehicleComponent.GetVisionRadius(), VehicleComponent.GetVisionAngle() * Mathf.Deg2Rad);
 
-        throw new System.NotImplementedException();
+        if (neighbours.Length != 0)
+        {
+            foreach (GameObject neighbour in neighbours)
+            {
+                averageHeading += neighbour.transform.forward;
+            }
+
+            averageHeading /= neighbours.Length;
+
+            steeringForce = averageHeading - transform.forward;
+        }
+
+        return steeringForce;
     }
 }
