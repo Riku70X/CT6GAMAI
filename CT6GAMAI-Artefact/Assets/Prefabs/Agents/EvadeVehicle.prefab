@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6876032272206570812}
   - component: {fileID: 194128217443063538}
   - component: {fileID: -1816982807960924442}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EvadeVehicle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,3 +166,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BaseLineTraceLength: 5
+  SecondaryTraceAngleOffset: 40

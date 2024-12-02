@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5971866073860696038}
   - component: {fileID: 7535402158668517955}
   - component: {fileID: 1995784675956143185}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HideVehicle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

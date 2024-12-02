@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4393914523577104773}
   - component: {fileID: 8328682647910981731}
   - component: {fileID: -5332427648479006928}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PursuitVehicle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,3 +166,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BaseLineTraceLength: 5
+  SecondaryTraceAngleOffset: 40

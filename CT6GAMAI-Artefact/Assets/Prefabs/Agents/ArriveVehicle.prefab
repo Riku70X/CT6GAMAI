@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7044703220448188979}
   - component: {fileID: 7460379391470652515}
   - component: {fileID: -4037875411595937044}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ArriveVehicle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

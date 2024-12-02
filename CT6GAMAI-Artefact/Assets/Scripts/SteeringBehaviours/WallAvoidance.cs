@@ -13,19 +13,6 @@ public class WallAvoidance : SteeringBehaviourBase
     [Tooltip("The angle of the side detection whiskers (degrees)")]
     [SerializeField] private float SecondaryTraceAngleOffset = 40.0f;
 
-    [Tooltip("The name of the Layer used by walls. This should match the Wall layer name in the project files ('Tags & Layers').")]
-    private const string WallLayerName = "Wall";
-
-    [Tooltip("The layer mask used by walls.")]
-    private int WallLayerMask;
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        WallLayerMask = 1 << LayerMask.NameToLayer(WallLayerName);
-    }
-
     public override Vector3 Calculate()
     {
         Vector3 steeringForce = Vector3.zero;
@@ -44,11 +31,11 @@ public class WallAvoidance : SteeringBehaviourBase
 
             Debug.DrawLine(traceStartLocation, traceEndLocation, Color.blue);
 
-            if (Physics.Linecast(traceStartLocation, traceEndLocation, out RaycastHit hit, WallLayerMask))
+            if (Physics.Linecast(traceStartLocation, traceEndLocation, out RaycastHit hit, GlobalSteeringFunctions.WallLayerMask))
             {
                 float penetrationDistance = lineTraceLength - hit.distance;
 
-                float forceMultipler = penetrationDistance / hit.distance;
+                //float forceMultipler = penetrationDistance / hit.distance;
 
                 steeringForce += hit.normal * penetrationDistance;
             }

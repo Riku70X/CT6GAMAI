@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7900666457595891429}
   - component: {fileID: 9139371726072909282}
   - component: {fileID: 819623055589823037}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SeekVehicle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,3 +166,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BaseLineTraceLength: 5
+  SecondaryTraceAngleOffset: 40

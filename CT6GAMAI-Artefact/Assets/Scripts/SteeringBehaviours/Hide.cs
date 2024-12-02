@@ -19,24 +19,10 @@ public class Hide : SteeringBehaviourBase
     [Tooltip("The distance from the hiding spot where we begin to slow down")]
     [SerializeField] private float SlowingDistance = 1.0f;
 
-    // Obstacle Layer logic taken from ObstacleAvoidance.cs... maybe this could be stored elsewhere?
-    [Tooltip("The name of the Layer used by obstacles. This should match the Obstacle layer name in the project files ('Tags & Layers').")]
-    private const string ObstacleLayerName = "Obstacle";
-
-    [Tooltip("The layer mask used by obstacles.")]
-    private int ObstacleLayerMask;
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        ObstacleLayerMask = 1 << LayerMask.NameToLayer(ObstacleLayerName);
-    }
-
     public override Vector3 Calculate()
     {
         //expensive to call every frame...
-        Collider[] obstacles = Physics.OverlapSphere(transform.position, SearchRadius, ObstacleLayerMask);
+        Collider[] obstacles = Physics.OverlapSphere(transform.position, SearchRadius, GlobalSteeringFunctions.ObstacleLayerMask);
 
         Vector3 bestHidingSpot = Vector3.zero;
 

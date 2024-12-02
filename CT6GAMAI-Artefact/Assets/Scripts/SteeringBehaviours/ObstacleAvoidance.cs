@@ -20,17 +20,9 @@ public class ObstacleAvoidance : SteeringBehaviourBase
     [Tooltip("Reference to this gameObject's collider component")]
     private Collider ColliderComponent;
 
-    [Tooltip("The name of the Layer used by obstacles. This should match the Obstacle layer name in the project files ('Tags & Layers').")]
-    private const string ObstacleLayerName = "Obstacle";
-
-    [Tooltip("The layer mask used by obstacles.")]
-    private int ObstacleLayerMask;
-
     protected override void Awake()
     {
         base.Awake();
-
-        ObstacleLayerMask = 1 << LayerMask.NameToLayer(ObstacleLayerName);
 
         if (TryGetComponent(out ColliderComponent))
         {
@@ -52,7 +44,7 @@ public class ObstacleAvoidance : SteeringBehaviourBase
         Quaternion detectionBoxRotation = Quaternion.LookRotation(transform.forward, transform.up);
 
         //expensive to call every frame...
-        Collider[] obstacles = Physics.OverlapBox(transform.position + worldDetectionBoxCentre, detectionBoxExtents, detectionBoxRotation, ObstacleLayerMask);
+        Collider[] obstacles = Physics.OverlapBox(transform.position + worldDetectionBoxCentre, detectionBoxExtents, detectionBoxRotation, GlobalSteeringFunctions.ObstacleLayerMask);
 
         if (obstacles.Length > 0)
         {

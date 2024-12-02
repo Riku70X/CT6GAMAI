@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3450850858506392889}
   - component: {fileID: 1577667432359841115}
   - component: {fileID: -8471118959598738121}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FleeVehicle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,3 +166,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BaseLineTraceLength: 5
+  SecondaryTraceAngleOffset: 40
