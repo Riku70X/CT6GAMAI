@@ -23,8 +23,10 @@ public class Cohesion : FlockingBehaviourBase
 
             averagePosition /= neighbours.Length;
 
-            steeringForce = Seek.GetSeekingForceToLocation(VehicleComponent, transform.position, averagePosition);
+            steeringForce = Seek.GetSeekingForceToLocation(VehicleComponent, transform.position, averagePosition) / 4;
         }
+
+        //Debug.Log($"Cohesion magnitude is {steeringForce.magnitude}");
 
         return steeringForce;
     }

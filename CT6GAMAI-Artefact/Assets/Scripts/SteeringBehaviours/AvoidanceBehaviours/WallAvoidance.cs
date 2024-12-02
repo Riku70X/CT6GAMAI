@@ -29,7 +29,7 @@ public class WallAvoidance : AvoidanceBehaviourBase
 
             Vector3 traceEndLocation = traceStartLocation + traceDirection;
 
-            Debug.DrawLine(traceStartLocation, traceEndLocation, Color.blue);
+            //Debug.DrawLine(traceStartLocation, traceEndLocation, Color.blue);
 
             if (Physics.Linecast(traceStartLocation, traceEndLocation, out RaycastHit hit, GlobalSteeringFunctions.WallLayerMask))
             {

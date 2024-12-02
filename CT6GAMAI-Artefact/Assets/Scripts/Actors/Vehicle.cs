@@ -60,7 +60,7 @@ public class Vehicle : MonoBehaviour
         AvoidanceBehaviourBase[] avoidanceBehaviours = GetComponents<AvoidanceBehaviourBase>();
         FlockingBehaviourBase[] flockingBehaviours = GetComponents<FlockingBehaviourBase>();
 
-        //Prioritise avoidance over flocking, and flocking over driving
+        //Prioritise avoidance over driving, and driving over flocking
 
         foreach (AvoidanceBehaviourBase avoidanceBehaviour in avoidanceBehaviours)
         {
@@ -68,17 +68,29 @@ public class Vehicle : MonoBehaviour
             if (!bSucceeded) break; // exit the loop if already full
         }
 
-        foreach (FlockingBehaviourBase flockingBehaviour in flockingBehaviours)
-        {
-            bool bSucceeded = AccumulateForce(ref steeringForce, flockingBehaviour.Calculate());
-            if (!bSucceeded) break; // exit the loop if already full
-        }
+        Debug.Log($"Avoidance running sum {steeringForce.magnitude}");
 
         foreach (DrivingBehaviourBase drivingBehaviour in drivingBehaviours)
         {
             bool bSucceeded = AccumulateForce(ref steeringForce, drivingBehaviour.Calculate());
             if (!bSucceeded) break; // exit the loop if already full
         }
+
+        Debug.Log($"Driving running sum {steeringForce.magnitude}");
+
+        Vector3 totalFlockingForce = Vector3.zero;
+
+        foreach (FlockingBehaviourBase flockingBehaviour in flockingBehaviours)
+        {
+            //bool bSucceeded = AccumulateForce(ref steeringForce, flockingBehaviour.Calculate());
+            //if (!bSucceeded) break; // exit the loop if already full
+
+            totalFlockingForce += flockingBehaviour.Calculate();
+        }
+
+        AccumulateForce(ref steeringForce, totalFlockingForce);
+
+        Debug.Log($"Flocking running sum {steeringForce.magnitude}");
 
         // ensure
         steeringForce = Vector3.ClampMagnitude(steeringForce, MaxForce);
@@ -88,6 +100,8 @@ public class Vehicle : MonoBehaviour
         Vector3 acceleration = steeringForce / Mass;
 
         Velocity += acceleration * Time.deltaTime;
+
+        Debug.Log($"Desired Speed {Velocity.magnitude}");
 
         Velocity = Vector3.ClampMagnitude(Velocity, MaxSpeed);
 

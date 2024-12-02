@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 7460379391470652515}
   - component: {fileID: -4037875411595937044}
   - component: {fileID: -1922998217871477038}
+  - component: {fileID: -1469493920080970419}
+  - component: {fileID: 2191153238184419917}
   m_Layer: 8
   m_Name: ArriveVehicle
   m_TagString: Untagged
@@ -128,6 +130,8 @@ MonoBehaviour:
   Mass: 1
   MaxSpeed: 3
   MaxForce: 1
+  VisionRadius: 15
+  VisionAngle: 135
 --- !u!114 &7044703220448188979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24fa26ee70e0d9e48ad9189af7a99b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetPos: {x: 0, y: 0, z: 0}
+  TargetPos: {x: 0, y: 1, z: 0}
   SlowingDistance: 1
 --- !u!114 &7460379391470652515
 MonoBehaviour:
@@ -181,5 +185,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd138da44dfaee43be98056b2cab5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VisionRadius: 15
-  VisionAngle: 135
+--- !u!114 &-1469493920080970419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4080162978813336769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1735bad89b7a50848888f6973383e157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2191153238184419917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4080162978813336769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c92b8bca772f841bb6563386d4cb48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

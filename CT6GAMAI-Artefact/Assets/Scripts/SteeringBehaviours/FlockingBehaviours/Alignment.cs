@@ -26,6 +26,8 @@ public class Alignment : FlockingBehaviourBase
             steeringForce = averageHeading - transform.forward;
         }
 
+        //Debug.Log($"Alignment magnitude is {steeringForce.magnitude}");
+
         return steeringForce;
     }
 }

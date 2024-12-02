@@ -28,6 +28,8 @@ public class Separation : FlockingBehaviourBase
             steeringForce += toOurAgent;
         }
 
+        //Debug.Log($"Separation magnitude is {steeringForce.magnitude}");
+
         return steeringForce;
     }
 }

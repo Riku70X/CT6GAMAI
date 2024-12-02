@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 194128217443063538}
   - component: {fileID: -1816982807960924442}
   - component: {fileID: 1643836231883646284}
+  - component: {fileID: -4036743833964460391}
+  - component: {fileID: 6227718278180784769}
   m_Layer: 8
   m_Name: EvadeVehicle
   m_TagString: Untagged
@@ -128,6 +130,8 @@ MonoBehaviour:
   Mass: 1
   MaxSpeed: 3
   MaxForce: 1
+  VisionRadius: 15
+  VisionAngle: 135
 --- !u!114 &6876032272206570812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,5 +184,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd138da44dfaee43be98056b2cab5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VisionRadius: 15
-  VisionAngle: 135
+--- !u!114 &-4036743833964460391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6570433094155952040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1735bad89b7a50848888f6973383e157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6227718278180784769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6570433094155952040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c92b8bca772f841bb6563386d4cb48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
