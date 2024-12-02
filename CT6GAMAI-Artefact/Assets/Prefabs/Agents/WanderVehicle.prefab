@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3901602578413927292}
   - component: {fileID: 2976062281705823452}
   - component: {fileID: -3921369738062788386}
+  - component: {fileID: 8742273366349835814}
   m_Layer: 8
   m_Name: WanderVehicle
   m_TagString: Untagged
@@ -169,3 +170,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseLineTraceLength: 5
   SecondaryTraceAngleOffset: 40
+--- !u!114 &8742273366349835814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5813192677782069274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd138da44dfaee43be98056b2cab5d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VisionRadius: 15
+  VisionAngle: 135

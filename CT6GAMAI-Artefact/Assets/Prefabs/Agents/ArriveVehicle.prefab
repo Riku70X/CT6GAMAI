@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7044703220448188979}
   - component: {fileID: 7460379391470652515}
   - component: {fileID: -4037875411595937044}
+  - component: {fileID: -1922998217871477038}
   m_Layer: 8
   m_Name: ArriveVehicle
   m_TagString: Untagged
@@ -168,3 +169,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseLineTraceLength: 5
   SecondaryTraceAngleOffset: 40
+--- !u!114 &-1922998217871477038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4080162978813336769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd138da44dfaee43be98056b2cab5d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VisionRadius: 15
+  VisionAngle: 135

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7900666457595891429}
   - component: {fileID: 9139371726072909282}
   - component: {fileID: 819623055589823037}
+  - component: {fileID: -8353342000759624178}
   m_Layer: 8
   m_Name: SeekVehicle
   m_TagString: Untagged
@@ -167,3 +168,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseLineTraceLength: 5
   SecondaryTraceAngleOffset: 40
+--- !u!114 &-8353342000759624178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7686994616709426999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd138da44dfaee43be98056b2cab5d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VisionRadius: 15
+  VisionAngle: 135

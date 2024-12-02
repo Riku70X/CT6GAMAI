@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5971866073860696038}
   - component: {fileID: 7535402158668517955}
   - component: {fileID: 1995784675956143185}
+  - component: {fileID: 243158590648533797}
   m_Layer: 8
   m_Name: HideVehicle
   m_TagString: Untagged
@@ -170,3 +171,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseLineTraceLength: 5
   SecondaryTraceAngleOffset: 40
+--- !u!114 &243158590648533797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4604428258311786883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd138da44dfaee43be98056b2cab5d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VisionRadius: 15
+  VisionAngle: 135
