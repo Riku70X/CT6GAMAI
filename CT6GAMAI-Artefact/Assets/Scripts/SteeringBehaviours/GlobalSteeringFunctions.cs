@@ -35,6 +35,13 @@ public class GlobalSteeringFunctions : MonoBehaviour
         AgentLayerMask = 1 << LayerMask.NameToLayer(AgentLayerName);
     }
 
+    /// <summary>
+    /// Locates all the nearby agents for flocking purposes.
+    /// </summary>
+    /// <param name="Agent">The agent we are checking around</param>
+    /// <param name="VisionRadius">The radius around the agent we are searching</param>
+    /// <param name="VisionAngle">The angle of vision of the agent, in radians (0 to pi/2)</param>
+    /// <returns>The array of agents</returns>
     public static GameObject[] GetAllNearbyAgents(GameObject Agent, float VisionRadius, float VisionAngle)
     {
         List<GameObject> agentList = new();
