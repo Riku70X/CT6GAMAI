@@ -56,11 +56,20 @@ public class Vehicle : MonoBehaviour
     {
         Vector3 steeringForce = Vector3.zero;
 
-        //Get all steering behaviours attached to this object and add their calculated steering force onto this SteeringForce
-        SteeringBehaviourBase[] steeringBehaviours = GetComponents<SteeringBehaviourBase>();
-        foreach (SteeringBehaviourBase steeringBehaviour in steeringBehaviours)
+        SteeringBehaviourBase[] drivingBehaviours = GetComponents<DrivingBehaviourBase>();
+        AvoidanceBehaviourBase[] avoidanceBehaviours = GetComponents<AvoidanceBehaviourBase>();
+        FlockingBehaviourBase[] flockingBehaviours = GetComponents< FlockingBehaviourBase>();
+
+        //Prioritise avoidance over flocking, and flocking over driving
+
+        foreach (AvoidanceBehaviourBase avoidanceBehaviour in avoidanceBehaviours)
         {
-            steeringForce += steeringBehaviour.Calculate();
+            steeringForce += avoidanceBehaviour.Calculate();
+        }
+
+        foreach (FlockingBehaviourBase flockingBehaviour in flockingBehaviours)
+        {
+            steeringForce += flockingBehaviour.Calculate();
         }
 
         steeringForce = Vector3.ClampMagnitude(steeringForce, MaxForce);
@@ -81,5 +90,10 @@ public class Vehicle : MonoBehaviour
         }
 
         //transform.right should update on its own once we update the transform.forward
+    }
+
+    private void AccumulateForce(ref Vector3 RunningSum, Vector3 ForceToAdd)
+    {
+        float MagnitudeSoFar = RunningSum.magnitude;
     }
 }

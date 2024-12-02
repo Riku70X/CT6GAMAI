@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Returns a force that steers an agent towards the same heading as its neighbours
 /// </summary>
-public class Alignment : SteeringBehaviourBase
+public class Alignment : FlockingBehaviourBase
 {
     public override Vector3 Calculate()
     {

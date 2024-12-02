@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Returns a force that directs the agent away from walls in its path
 /// </summary>
-public class WallAvoidance : SteeringBehaviourBase
+public class WallAvoidance : AvoidanceBehaviourBase
 {
     [Tooltip("The default length of the line traces."/*At runtime, it will be proportional to the speed of the agent."*/)]
     [SerializeField] private float BaseLineTraceLength = 5.0f;

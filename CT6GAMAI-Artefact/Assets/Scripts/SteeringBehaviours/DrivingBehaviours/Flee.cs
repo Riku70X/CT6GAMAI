@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Returns a force that directs the agent away from a target position
 /// </summary>
-public class Flee : SteeringBehaviourBase
+public class Flee : DrivingBehaviourBase
 {
     [Tooltip("The location we want to flee from")]
     [SerializeField] private Vector3 TargetPos;

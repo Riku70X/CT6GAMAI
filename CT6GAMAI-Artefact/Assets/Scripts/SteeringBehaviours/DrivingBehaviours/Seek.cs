@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Returns a force that directs the agent towards a target position
 /// </summary>
-public class Seek : SteeringBehaviourBase
+public class Seek : DrivingBehaviourBase
 {
     [Tooltip("The location we want to seek to")]
     [SerializeField] private Vector3 TargetPos;

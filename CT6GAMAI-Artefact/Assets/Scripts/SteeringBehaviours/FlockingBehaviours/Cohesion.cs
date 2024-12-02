@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Returns a force that steers an agent towards the average position of all its neighbours
 /// </summary>
-public class Cohesion : SteeringBehaviourBase
+public class Cohesion : FlockingBehaviourBase
 {
     public override Vector3 Calculate()
     {

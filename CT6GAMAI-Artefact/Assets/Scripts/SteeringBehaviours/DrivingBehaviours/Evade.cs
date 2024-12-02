@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Returns a force that directs the agent away from a predicted future location of a target agent
 /// </summary>
-public class Evade : SteeringBehaviourBase
+public class Evade : DrivingBehaviourBase
 {
     [Tooltip("The agent we want to evade")]
     [SerializeField] private GameObject Pursuer;

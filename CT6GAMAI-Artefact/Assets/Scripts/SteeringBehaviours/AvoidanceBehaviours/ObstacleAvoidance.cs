@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Returns a force that directs the agent away from obstacles in its path
 /// </summary>
-public class ObstacleAvoidance : SteeringBehaviourBase
+public class ObstacleAvoidance : AvoidanceBehaviourBase
 {
     [Tooltip("The default length of the detection box. At runtime, it will be proportional to the speed of the agent. Measured from the centre.")]
     [SerializeField] private float BaseDetectionBoxLength = 1.0f;

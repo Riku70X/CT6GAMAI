@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Returns a force that steers an agent away from the agents in its neighbourhood region
 /// </summary>
-public class Separation : SteeringBehaviourBase
+public class Separation : FlockingBehaviourBase
 {
     public override Vector3 Calculate()
     {

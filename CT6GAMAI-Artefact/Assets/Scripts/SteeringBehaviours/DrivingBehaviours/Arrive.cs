@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Returns a force that directs the agent towards a target position, but aplies a scalar to adjust it's magnitude based on the distance to the target
 /// </summary>
-public class Arrive : SteeringBehaviourBase
+public class Arrive : DrivingBehaviourBase
 {
     [Tooltip("The location we want to arrive at")]
     [SerializeField] private Vector3 TargetPos;

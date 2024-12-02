@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wander : SteeringBehaviourBase
+public class Wander : DrivingBehaviourBase
 {
     [Tooltip("This is the radius of our constraining circle/sphere")]
     [SerializeField] private float WanderRadius = 10f;

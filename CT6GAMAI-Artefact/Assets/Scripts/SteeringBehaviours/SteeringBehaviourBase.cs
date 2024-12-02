@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Abstract class. Steering Behaviours will inherit from this (see Wander/Seek)
+/// Abstract class. Steering Behaviours will inherit from this
 /// </summary>
 [RequireComponent(typeof(Vehicle))]
 public abstract class SteeringBehaviourBase : MonoBehaviour

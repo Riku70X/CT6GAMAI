@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Returns a force that directs the agent towards a predicted future location of a target agent
 /// </summary>
-public class Pursuit : SteeringBehaviourBase
+public class Pursuit : DrivingBehaviourBase
 {
     [Tooltip("The agent we want to pursue")]
     [SerializeField] private GameObject Evader;
