@@ -128,10 +128,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Velocity: {x: 0, y: 0, z: 0}
   Mass: 1
-  MaxSpeed: 3
-  MaxForce: 1
-  VisionRadius: 15
-  VisionAngle: 135
+  MaxSpeed: 5
+  MaxForce: 10
+  VisionRadius: 10
+  VisionAngle: 110
 --- !u!114 &7044703220448188979
 MonoBehaviour:
   m_ObjectHideFlags: 0

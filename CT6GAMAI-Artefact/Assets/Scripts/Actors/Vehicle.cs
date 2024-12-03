@@ -35,10 +35,10 @@ public class Vehicle : MonoBehaviour
     [SerializeField] private float Mass = 1;
 
     [Tooltip("The maximum speed this agent can move per second")]
-    [SerializeField] private float MaxSpeed = 3;
+    [SerializeField] private float MaxSpeed = 5;
 
     [Tooltip("The thrust this agent can produce")]
-    [SerializeField] private float MaxForce = 1;
+    [SerializeField] private float MaxForce = 10;
 
     //[Tooltip("We use this to determine how fast the agent can turn, but just ignore it for, we won't be using it")]
     //[SerializeField] private float MaxTurnRate = 1.0f;
@@ -46,11 +46,11 @@ public class Vehicle : MonoBehaviour
     [Header("Flocking Stats")]
 
     [Tooltip("The radius around the agent that we search for neighbours")]
-    [SerializeField] private float VisionRadius = 15.0f;
+    [SerializeField] private float VisionRadius = 10.0f;
 
     [Tooltip("The side angle of vision of the agent has (180 degrees -> can see directly behind)")]
     [Range(0.0f, 180.0f)]
-    [SerializeField] private float VisionAngle = 135.0f;
+    [SerializeField] private float VisionAngle = 110.0f;
 
     void Update()
     {
@@ -78,13 +78,11 @@ public class Vehicle : MonoBehaviour
 
         Debug.Log($"Driving running sum {steeringForce.magnitude}");
 
+        //For flocking, we don't want to prioritise any single behaviour, so we sum them together first before accumulating with the rest.
         Vector3 totalFlockingForce = Vector3.zero;
 
         foreach (FlockingBehaviourBase flockingBehaviour in flockingBehaviours)
         {
-            //bool bSucceeded = AccumulateForce(ref steeringForce, flockingBehaviour.Calculate());
-            //if (!bSucceeded) break; // exit the loop if already full
-
             totalFlockingForce += flockingBehaviour.Calculate();
         }
 
