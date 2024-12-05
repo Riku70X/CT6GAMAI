@@ -1,6 +1,5 @@
 // Most logic taken from https://visualstudiomagazine.com/Articles/2012/11/01/Priority-Queues-with-C.aspx
 
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

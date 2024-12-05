@@ -1,12 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
-using UnityEngine;
-
-///TO DO
-///All the base functionality for your Behaviour Trees are in here. But there are some parts that are missing or broken
-///Fix all the issues here and the Zombie will function correctly (you do NOT have to make any changes inside any other script except this one)
 
 /// <summary>
 /// Execute can return one of three things

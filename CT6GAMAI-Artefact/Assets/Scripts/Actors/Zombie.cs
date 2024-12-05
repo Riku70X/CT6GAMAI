@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 
 /// <summary>
 /// This is our Zombie Character. It requires a Zombie Blackboard (ZombieBB) component
