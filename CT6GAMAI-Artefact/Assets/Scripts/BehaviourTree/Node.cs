@@ -14,10 +14,10 @@ public enum BTStatus
 /// <summary>
 /// Base class. Sets the foundations for everything else
 /// </summary>
-public abstract class BTNode
+public abstract class BehaviourTreeNode
 {
     protected Blackboard bb;
-    public BTNode(Blackboard bb)
+    public BehaviourTreeNode(Blackboard bb)
     {
         this.bb = bb;
     }
@@ -40,15 +40,15 @@ public abstract class BTNode
 /// Base class for node that can take child nodes. Only meant to be used in subclasses like Selector and Sequence,
 /// but you can add other subclass types (e.g. RandomSelector, RandomSequence, Parallel etc.)
 /// </summary>
-public abstract class CompositeNode : BTNode
+public abstract class CompositeNode : BehaviourTreeNode
 {
     protected int CurrentChildIndex = 0;
-    protected List<BTNode> children;
+    protected List<BehaviourTreeNode> children;
     public CompositeNode(Blackboard bb) : base(bb)
     {
-        children = new List<BTNode>();
+        children = new List<BehaviourTreeNode>();
     }
-    public void AddChild(BTNode child)
+    public void AddChild(BehaviourTreeNode child)
     {
         children.Add(child);
     }
@@ -156,15 +156,15 @@ public class Sequence : CompositeNode
 /// <summary>
 /// Decorator nodes customise functionality of other nodes by wrapping around them, see InverterDecorator for example
 /// </summary>
-public abstract class DecoratorNode : BTNode
+public abstract class DecoratorNode : BehaviourTreeNode
 {
-    protected BTNode WrappedNode;
-    public DecoratorNode(BTNode WrappedNode, Blackboard bb) : base(bb)
+    protected BehaviourTreeNode WrappedNode;
+    public DecoratorNode(BehaviourTreeNode WrappedNode, Blackboard bb) : base(bb)
     {
         this.WrappedNode = WrappedNode;
     }
 
-    public BTNode GetWrappedNode()
+    public BehaviourTreeNode GetWrappedNode()
     {
         return WrappedNode;
     }
@@ -184,7 +184,7 @@ public abstract class DecoratorNode : BTNode
 /// </summary>
 public class InverterDecorator : DecoratorNode
 {
-    public InverterDecorator(BTNode WrappedNode, Blackboard bb) : base(WrappedNode, bb)
+    public InverterDecorator(BehaviourTreeNode WrappedNode, Blackboard bb) : base(WrappedNode, bb)
     {
 
     }
@@ -211,7 +211,7 @@ public class InverterDecorator : DecoratorNode
 /// </summary>
 public abstract class ConditionalDecorator : DecoratorNode
 {
-    public ConditionalDecorator(BTNode WrappedNode, Blackboard bb) : base(WrappedNode, bb)
+    public ConditionalDecorator(BehaviourTreeNode WrappedNode, Blackboard bb) : base(WrappedNode, bb)
     {
 
     }
@@ -233,7 +233,7 @@ public abstract class ConditionalDecorator : DecoratorNode
 /// <summary>
 /// This node simply returns success after the allotted delay time has passed
 /// </summary>
-public class DelayNode : BTNode
+public class DelayNode : BehaviourTreeNode
 {
     protected float Delay = 0.0f;
     bool Started = false;

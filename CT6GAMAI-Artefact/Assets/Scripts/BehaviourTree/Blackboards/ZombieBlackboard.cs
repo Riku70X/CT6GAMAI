@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ZombieBB : Blackboard
+public class ZombieBlackboard : Blackboard
 {
     public Vector3 MoveToLocation;
     public Vector3 PlayerLocation;

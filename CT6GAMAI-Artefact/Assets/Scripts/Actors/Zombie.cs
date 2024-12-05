@@ -1,9 +1,9 @@
 using UnityEngine;
 
 /// <summary>
-/// This is our Zombie Character. It requires a Zombie Blackboard (ZombieBB) component
+/// This is our Zombie Character. It requires a Zombie Blackboard (ZombieBlackboard) component
 /// </summary>
-[RequireComponent(typeof(ZombieBB))]
+[RequireComponent(typeof(ZombieBlackboard))]
 public class Zombie : MonoBehaviour
 {
     public float MoveSpeed = 10.0f;
@@ -11,7 +11,7 @@ public class Zombie : MonoBehaviour
     private Vector3 MoveLocation;
     private bool IsMoving = false;
 
-    private BTNode BTRootNode;
+    private BehaviourTreeNode BehaviourTreeRootNode;
     // Use this for initialization
     void Start()
     {
@@ -20,11 +20,11 @@ public class Zombie : MonoBehaviour
         //CREATING OUR ZOMBIE BEHAVIOUR TREE
 
         //Get reference to Zombie Blackboard
-        ZombieBB bb = GetComponent<ZombieBB>();
+        ZombieBlackboard bb = GetComponent<ZombieBlackboard>();
 
         //Create our root selector
-        Selector rootChild = new Selector(bb); // selectors will execute it's children 1 by 1 until one of them succeeds
-        BTRootNode = rootChild;
+        Selector rootChild = new Selector(bb); // selectors will execute thier children 1 by 1 until one of them succeeds
+        BehaviourTreeRootNode = rootChild;
 
         //Flee Sequence
         CompositeNode fleeSequence = new Sequence(bb); // The sequence of actions to take when Fleeing
@@ -39,7 +39,7 @@ public class Zombie : MonoBehaviour
         CompositeNode FightSequence = new Sequence(bb); // The sequence of actions to take when Fighting
         FightDecorator fightRoot = new FightDecorator(FightSequence, bb); //defines the condition required to enter the fight sequence(see FightDecorator)
 
-        //Defining a sequence for when the Zombie is to do it's combo attack, this is a nested within our FightSequence
+        //Defining a sequence for when the Zombie is to do its combo attack, this is a nested within our FightSequence
         Sequence ZombieCombo = new Sequence(bb);
         ZombieCombo.AddChild(new ZombieClawPlayer(bb)); // claw the player
         ZombieCombo.AddChild(new DelayNode(bb, 0.8f)); // wait for 0.8 seconds
@@ -82,7 +82,7 @@ public class Zombie : MonoBehaviour
 
     public void ExecuteBT()
     {
-        BTRootNode.Execute();
+        BehaviourTreeRootNode.Execute();
     }
 }
 
@@ -91,10 +91,10 @@ public class Zombie : MonoBehaviour
 /// </summary>
 public class FleeDecorator : ConditionalDecorator
 {
-    ZombieBB zBB;
-    public FleeDecorator(BTNode WrappedNode, Blackboard bb) : base(WrappedNode, bb)
+    ZombieBlackboard zBB;
+    public FleeDecorator(BehaviourTreeNode WrappedNode, Blackboard bb) : base(WrappedNode, bb)
     {
-        zBB = (ZombieBB)bb;
+        zBB = (ZombieBlackboard)bb;
     }
 
     /// <summary>
@@ -107,13 +107,13 @@ public class FleeDecorator : ConditionalDecorator
     }
 }
 
-public class CalculateFleeLocation : BTNode
+public class CalculateFleeLocation : BehaviourTreeNode
 {
-    private ZombieBB zBB;
+    private ZombieBlackboard zBB;
 
     public CalculateFleeLocation(Blackboard bb) : base(bb)
     {
-        zBB = (ZombieBB)bb;
+        zBB = (ZombieBlackboard)bb;
     }
 
     public override BTStatus Execute()
@@ -124,14 +124,14 @@ public class CalculateFleeLocation : BTNode
     }
 }
 
-public class ZombieMoveTo : BTNode
+public class ZombieMoveTo : BehaviourTreeNode
 {
-    private ZombieBB zBB;
+    private ZombieBlackboard zBB;
     private Zombie zombieRef;
 
     public ZombieMoveTo(Blackboard bb, Zombie zombay) : base(bb)
     {
-        zBB = (ZombieBB)bb;
+        zBB = (ZombieBlackboard)bb;
         zombieRef = zombay;
     }
 
@@ -143,14 +143,14 @@ public class ZombieMoveTo : BTNode
     }
 }
 
-public class ZombieWaitTillAtLocation : BTNode
+public class ZombieWaitTillAtLocation : BehaviourTreeNode
 {
-    private ZombieBB zBB;
+    private ZombieBlackboard zBB;
     private Zombie zombieRef;
 
     public ZombieWaitTillAtLocation(Blackboard bb, Zombie zombay) : base(bb)
     {
-        zBB = (ZombieBB)bb;
+        zBB = (ZombieBlackboard)bb;
         zombieRef = zombay;
     }
 
@@ -169,10 +169,10 @@ public class ZombieWaitTillAtLocation : BTNode
 ///Fight sequence stuff
 public class FightDecorator : ConditionalDecorator
 {
-    ZombieBB zBB;
-    public FightDecorator(BTNode WrappedNode, Blackboard bb) : base(WrappedNode, bb)
+    ZombieBlackboard zBB;
+    public FightDecorator(BehaviourTreeNode WrappedNode, Blackboard bb) : base(WrappedNode, bb)
     {
-        zBB = (ZombieBB)bb;
+        zBB = (ZombieBlackboard)bb;
     }
 
     public override bool CheckStatus()
@@ -181,14 +181,14 @@ public class FightDecorator : ConditionalDecorator
     }
 }
 
-public class ZombieMoveToPlayer : BTNode
+public class ZombieMoveToPlayer : BehaviourTreeNode
 {
-    private ZombieBB zBB;
+    private ZombieBlackboard zBB;
     private Zombie zombieRef;
     bool FirstRun = true;
     public ZombieMoveToPlayer(Blackboard bb, Zombie zombay) : base(bb)
     {
-        zBB = (ZombieBB)bb;
+        zBB = (ZombieBlackboard)bb;
         zombieRef = zombay;
     }
 
@@ -198,7 +198,7 @@ public class ZombieMoveToPlayer : BTNode
         {
             FirstRun = false;
             Debug.Log("Moving to player");
-            // perhaps the BTNode should have some "start" function that
+            // perhaps the BehaviourTreeNode should have some "start" function that
             // can be overridden in child classes so we don't have to do this?
         }
         BTStatus rv = BTStatus.RUNNING;
@@ -219,7 +219,7 @@ public class ZombieMoveToPlayer : BTNode
     }
 }
 
-public class ZombieClawPlayer : BTNode
+public class ZombieClawPlayer : BehaviourTreeNode
 {
     public ZombieClawPlayer(Blackboard bb) : base(bb)
     {
@@ -233,7 +233,7 @@ public class ZombieClawPlayer : BTNode
     }
 }
 
-public class ZombieBitePlayer : BTNode
+public class ZombieBitePlayer : BehaviourTreeNode
 {
     public ZombieBitePlayer(Blackboard bb) : base(bb)
     {
@@ -247,7 +247,7 @@ public class ZombieBitePlayer : BTNode
     }
 }
 
-public class ZombieStopMovement : BTNode
+public class ZombieStopMovement : BehaviourTreeNode
 {
     private Zombie zombieRef;
     public ZombieStopMovement(Blackboard bb, Zombie zombay) : base(bb)
