@@ -1,12 +1,12 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Miner))]
+[RequireComponent(typeof(ShopperStateMachine))]
 public class ShopperBlackboard : Blackboard
 {
-    public Miner ShopperStateMachine;
+    public ShopperStateMachine ShopperStateMachine;
 
     private void Start()
     {
-        ShopperStateMachine = GetComponent<Miner>();
+        ShopperStateMachine = GetComponent<ShopperStateMachine>();
     }
 }

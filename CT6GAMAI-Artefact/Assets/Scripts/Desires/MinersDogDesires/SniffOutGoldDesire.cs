@@ -5,7 +5,7 @@ public class SniffOutGoldDesire : Desire
         State = new SniffOutGold();
     }
 
-    public override void CalculateDesire(Worker worker)
+    public override void CalculateDesire(DesireBasedStateMachine DesireBasedStateMachine)
     {
         DesireVal = 0.9f; // Default action with a high desire
     }

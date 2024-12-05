@@ -17,7 +17,7 @@ public class Seek : DrivingBehaviourBase
     /// Returns a force that directs the agent towards a target position
     /// </summary>
     /// <param name="TargetPosition">The location we are seeking to.</param>
-    public static Vector3 GetSeekingForceToLocation(Vehicle VehicleComponent, Vector3 CurrentPosition, Vector3 TargetPosition)
+    public static Vector3 GetSeekingForceToLocation(VehicleComponent VehicleComponent, Vector3 CurrentPosition, Vector3 TargetPosition)
     {
         Vector3 desiredVelocity = (TargetPosition - CurrentPosition).normalized * VehicleComponent.GetMaxSpeed();
 

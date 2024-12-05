@@ -1,10 +1,10 @@
 using UnityEngine;
 
-/// <summary>
+/// <summary>VehicleComponent
 /// This is our Zombie Character. It requires a Zombie Blackboard (ZombieBlackboard) component
 /// </summary>
 [RequireComponent(typeof(ZombieBlackboard))]
-public class Zombie : MonoBehaviour
+public class ZombieAIController : MonoBehaviour
 {
     public float MoveSpeed = 10.0f;
 
@@ -127,9 +127,9 @@ public class CalculateFleeLocation : BehaviourTreeNode
 public class ZombieMoveTo : BehaviourTreeNode
 {
     private ZombieBlackboard zBB;
-    private Zombie zombieRef;
+    private ZombieAIController zombieRef;
 
-    public ZombieMoveTo(Blackboard bb, Zombie zombay) : base(bb)
+    public ZombieMoveTo(Blackboard bb, ZombieAIController zombay) : base(bb)
     {
         zBB = (ZombieBlackboard)bb;
         zombieRef = zombay;
@@ -146,9 +146,9 @@ public class ZombieMoveTo : BehaviourTreeNode
 public class ZombieWaitTillAtLocation : BehaviourTreeNode
 {
     private ZombieBlackboard zBB;
-    private Zombie zombieRef;
+    private ZombieAIController zombieRef;
 
-    public ZombieWaitTillAtLocation(Blackboard bb, Zombie zombay) : base(bb)
+    public ZombieWaitTillAtLocation(Blackboard bb, ZombieAIController zombay) : base(bb)
     {
         zBB = (ZombieBlackboard)bb;
         zombieRef = zombay;
@@ -184,9 +184,9 @@ public class FightDecorator : ConditionalDecorator
 public class ZombieMoveToPlayer : BehaviourTreeNode
 {
     private ZombieBlackboard zBB;
-    private Zombie zombieRef;
+    private ZombieAIController zombieRef;
     bool FirstRun = true;
-    public ZombieMoveToPlayer(Blackboard bb, Zombie zombay) : base(bb)
+    public ZombieMoveToPlayer(Blackboard bb, ZombieAIController zombay) : base(bb)
     {
         zBB = (ZombieBlackboard)bb;
         zombieRef = zombay;
@@ -249,8 +249,8 @@ public class ZombieBitePlayer : BehaviourTreeNode
 
 public class ZombieStopMovement : BehaviourTreeNode
 {
-    private Zombie zombieRef;
-    public ZombieStopMovement(Blackboard bb, Zombie zombay) : base(bb)
+    private ZombieAIController zombieRef;
+    public ZombieStopMovement(Blackboard bb, ZombieAIController zombay) : base(bb)
     {
         zombieRef = zombay;
     }

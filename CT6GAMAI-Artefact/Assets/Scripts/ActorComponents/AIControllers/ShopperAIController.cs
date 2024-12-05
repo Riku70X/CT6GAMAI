@@ -1,10 +1,10 @@
 using UnityEngine;
 
 /// <summary>
-/// The AIController for our shopper. It needs a ShopperBlackBoard component.
+/// The AIController for our shopper. It needs a ShopperBlackboard component.
 /// </summary>
 [RequireComponent(typeof(ShopperBlackboard))]
-public class ShopperAI : MonoBehaviour
+public class ShopperAIController : MonoBehaviour
 {
     private BehaviourTreeNode RootNode;
 

@@ -7,16 +7,16 @@ public class GoHomeAndSleepDesire : Desire
         State = new GoHomeAndSleep();
     }
 
-    public override void CalculateDesire(Worker worker)
+    public override void CalculateDesire(DesireBasedStateMachine DesireBasedStateMachine)
     {
-        Miner miner = (Miner)worker;
+        MinerStateMachine MinerStateMachine = (MinerStateMachine)DesireBasedStateMachine;
 
-        if (miner == null)
+        if (MinerStateMachine == null)
         {
             Debug.LogError("ERROR: Attempted to call Desire::CalculateDesire on something that does not implement this desire");
             return;
         }
 
-        DesireVal = Mathf.Clamp((float)miner.m_Tiredness / miner.maxTiredness, 0, 1);
+        DesireVal = Mathf.Clamp((float)MinerStateMachine.m_Tiredness / MinerStateMachine.maxTiredness, 0, 1);
     }
 }

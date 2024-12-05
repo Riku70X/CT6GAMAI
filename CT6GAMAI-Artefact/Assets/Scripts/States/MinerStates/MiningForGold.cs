@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class MiningForGold : State
 {
-    public override void Execute(Worker worker)
+    public override void Execute(DesireBasedStateMachine DesireBasedStateMachine)
     {
-        Miner miner = (Miner)worker;
+        MinerStateMachine MinerStateMachine = (MinerStateMachine)DesireBasedStateMachine;
 
-        if (miner == null)
+        if (MinerStateMachine == null)
         {
             Debug.LogError("ERROR: Attempted to call State::Execute on something that does not implement this state");
             return;
@@ -15,11 +15,11 @@ public class MiningForGold : State
         // Print out information on what it is doing...
         Debug.Log("Digging for gold!");
 
-        // Increment the miner's gold amount
-        miner.m_Gold++;
+        // Increment the MinerStateMachine's gold amount
+        MinerStateMachine.m_Gold++;
 
         // Working makes you tired and thirsty
-        miner.m_Tiredness++;
-        miner.m_Thirst++;
+        MinerStateMachine.m_Tiredness++;
+        MinerStateMachine.m_Thirst++;
     }
 }

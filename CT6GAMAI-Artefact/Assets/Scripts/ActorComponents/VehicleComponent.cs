@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Applies the forces of the Steering Behaviours attached to this object
 /// </summary>
-public class Vehicle : MonoBehaviour
+public class VehicleComponent : MonoBehaviour
 {
     //Accessors
 

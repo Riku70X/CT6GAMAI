@@ -7,16 +7,16 @@ public class RunAroundDesire : Desire
         State = new RunAround();
     }
 
-    public override void CalculateDesire(Worker worker)
+    public override void CalculateDesire(DesireBasedStateMachine DesireBasedStateMachine)
     {
-        MinersDog minersDog = (MinersDog)worker;
+        MinersDogStateMachine MinersDogStateMachine = (MinersDogStateMachine)DesireBasedStateMachine;
 
-        if (minersDog == null)
+        if (MinersDogStateMachine == null)
         {
             Debug.LogError("ERROR: Attempted to call Desire::CalculateDesire on something that does not implement this desire");
             return;
         }
 
-        DesireVal = Mathf.Clamp((float)minersDog.m_Boredom / minersDog.maxBoredom, 0, 1);
+        DesireVal = Mathf.Clamp((float)MinersDogStateMachine.m_Boredom / MinersDogStateMachine.maxBoredom, 0, 1);
     }
 }

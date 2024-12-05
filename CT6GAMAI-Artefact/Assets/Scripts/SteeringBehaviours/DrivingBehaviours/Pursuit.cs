@@ -10,7 +10,7 @@ public class Pursuit : DrivingBehaviourBase
 
     public override Vector3 Calculate()
     {
-        if (!Evader.TryGetComponent<Vehicle>(out var evaderVehicleComponent))
+        if (!Evader.TryGetComponent<VehicleComponent>(out var evaderVehicleComponent))
         {
             Debug.LogError("Pursuit::Calculate() has failed - evaderVehicleComponent was null. Evader needs a Vehicle component.");
 

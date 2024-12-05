@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class RunAround : State
 {
-    public override void Execute(Worker worker)
+    public override void Execute(DesireBasedStateMachine DesireBasedStateMachine)
     {
-        MinersDog minersDog = (MinersDog)worker;
+        MinersDogStateMachine MinersDogStateMachine = (MinersDogStateMachine)DesireBasedStateMachine;
 
-        if (minersDog == null)
+        if (MinersDogStateMachine == null)
         {
             Debug.LogError("ERROR: Attempted to call State::Execute on something that does not implement this state");
             return;
@@ -16,6 +16,6 @@ public class RunAround : State
         Debug.Log("Running around!");
 
         // Decrease the miner's dog's boredom
-        minersDog.m_Boredom -= 2;
+        MinersDogStateMachine.m_Boredom -= 2;
     }
 }

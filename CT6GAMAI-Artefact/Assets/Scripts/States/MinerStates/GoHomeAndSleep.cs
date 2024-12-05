@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class GoHomeAndSleep : State
 {
-    public override void Execute(Worker worker)
+    public override void Execute(DesireBasedStateMachine DesireBasedStateMachine)
     {
-        Miner miner = (Miner)worker;
+        MinerStateMachine MinerStateMachine = (MinerStateMachine)DesireBasedStateMachine;
 
-        if (miner == null)
+        if (MinerStateMachine == null)
         {
             Debug.LogError("ERROR: Attempted to call State::Execute on something that does not implement this state");
             return;
@@ -16,6 +16,6 @@ public class GoHomeAndSleep : State
         Debug.Log("Sleeping...");
 
         // Decrease tiredness
-        miner.m_Tiredness -= 2;
+        MinerStateMachine.m_Tiredness -= 2;
     }
 }

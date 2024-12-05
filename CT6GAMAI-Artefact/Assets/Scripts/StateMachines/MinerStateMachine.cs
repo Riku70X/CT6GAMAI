@@ -1,4 +1,4 @@
-public class Miner : Worker
+public class MinerStateMachine : DesireBasedStateMachine
 {
     //public:
 
@@ -13,7 +13,7 @@ public class Miner : Worker
     public readonly int maxTiredness;
     public readonly int maxThirst;
 
-    public Miner()
+    public MinerStateMachine()
     {
         // Set the intial state as MiningForGold
         pState = new MiningForGold();

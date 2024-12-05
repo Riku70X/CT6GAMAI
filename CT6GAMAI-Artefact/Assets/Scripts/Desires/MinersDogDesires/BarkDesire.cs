@@ -7,11 +7,11 @@ public class BarkDesire : Desire
         State = new Bark();
     }
 
-    public override void CalculateDesire(Worker worker)
+    public override void CalculateDesire(DesireBasedStateMachine DesireBasedStateMachine)
     {
-        MinersDog minersDog = (MinersDog)worker;
+        MinersDogStateMachine MinersDogStateMachine = (MinersDogStateMachine)DesireBasedStateMachine;
 
-        if (minersDog == null)
+        if (MinersDogStateMachine == null)
         {
             Debug.LogError("ERROR: Attempted to call Desire::CalculateDesire on something that does not implement this desire");
             return;

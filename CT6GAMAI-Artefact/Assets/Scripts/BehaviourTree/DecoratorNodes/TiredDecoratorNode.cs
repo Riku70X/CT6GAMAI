@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TiredDecorator : ConditionalDecorator
@@ -12,7 +10,7 @@ public class TiredDecorator : ConditionalDecorator
 
     public override bool CheckStatus()
     {
-        ShopperBlackboard.ShopperStateMachine.m_BankedGold = 2;
+        //ShopperBlackboard.ShopperStateMachine.m_BankedGold = 2;
 
         throw new System.NotImplementedException();
     }

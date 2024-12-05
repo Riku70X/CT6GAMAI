@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class SniffOutGold : State
 {
-    public override void Execute(Worker worker)
+    public override void Execute(DesireBasedStateMachine DesireBasedStateMachine)
     {
-        MinersDog minersDog = (MinersDog)worker;
+        MinersDogStateMachine MinersDogStateMachine = (MinersDogStateMachine)DesireBasedStateMachine;
 
-        if (minersDog == null)
+        if (MinersDogStateMachine == null)
         {
             Debug.LogError("ERROR: Attempted to call State::Execute on something that does not implement this state");
             return;
@@ -16,6 +16,6 @@ public class SniffOutGold : State
         Debug.Log("Sniffing out gold!");
 
         // Increment the miner's dog's boredom
-        minersDog.m_Boredom++;
+        MinersDogStateMachine.m_Boredom++;
     }
 }

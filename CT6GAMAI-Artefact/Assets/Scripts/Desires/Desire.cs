@@ -15,7 +15,7 @@ public abstract class Desire
     }
 
     // This sets the DesireVal in child classes (does nothing here)
-    public abstract void CalculateDesire(Worker worker);
+    public abstract void CalculateDesire(DesireBasedStateMachine DesireBasedStateMachine);
 
     // Comparator (logic taken from https://visualstudiomagazine.com/articles/2012/11/01/priority-queues-with-c/listing2.aspx)
     public int CompareTo(Desire other)

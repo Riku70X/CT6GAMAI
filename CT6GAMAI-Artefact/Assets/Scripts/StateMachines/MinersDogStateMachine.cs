@@ -1,4 +1,4 @@
-public class MinersDog : Worker
+public class MinersDogStateMachine : DesireBasedStateMachine
 {
     //public:
 
@@ -8,7 +8,7 @@ public class MinersDog : Worker
     // These values cannot change at runtime
     public readonly int maxBoredom;
 
-    public MinersDog()
+    public MinersDogStateMachine()
     {
         // Set the initial state as SniffOutGold
         pState = new SniffOutGold();

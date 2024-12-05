@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public abstract class Worker : MonoBehaviour
+public abstract class DesireBasedStateMachine : MonoBehaviour
 {    
     //protected:
 
@@ -19,7 +19,7 @@ public abstract class Worker : MonoBehaviour
     // Our priority queue
     protected readonly PriorityQueue<Desire> DesirePriorityQueue;
 
-    protected Worker()
+    protected DesireBasedStateMachine()
     {
         DesirePriorityQueue = new PriorityQueue<Desire>();
     }

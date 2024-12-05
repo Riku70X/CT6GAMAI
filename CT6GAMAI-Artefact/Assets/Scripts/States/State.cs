@@ -1,4 +1,4 @@
 public abstract class State
 {
-    public abstract void Execute(Worker worker);
+    public abstract void Execute(DesireBasedStateMachine DesireBasedStateMachine);
 }

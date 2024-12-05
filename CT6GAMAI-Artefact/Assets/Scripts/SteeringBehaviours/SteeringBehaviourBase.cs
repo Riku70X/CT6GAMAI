@@ -3,11 +3,11 @@ using UnityEngine;
 /// <summary>
 /// Abstract class. Steering Behaviours will inherit from this
 /// </summary>
-[RequireComponent(typeof(Vehicle))]
+[RequireComponent(typeof(VehicleComponent))]
 public abstract class SteeringBehaviourBase : MonoBehaviour
 {
     [Tooltip("A reference to the Vehicle component on this gameObject")]
-    protected Vehicle VehicleComponent;
+    protected VehicleComponent VehicleComponent;
 
     protected virtual void Awake()
     {

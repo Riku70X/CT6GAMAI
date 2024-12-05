@@ -17,9 +17,9 @@ public class Evade : DrivingBehaviourBase
     /// Returns a force that directs the agent away from a predicted future location of a target agent
     /// </summary>
     /// <param name="Pursuer">The agent we are evading</param>
-    public static Vector3 GetEvadingForceFromAgent(Vehicle VehicleComponent, Vector3 CurrentPosition, GameObject Pursuer)
+    public static Vector3 GetEvadingForceFromAgent(VehicleComponent VehicleComponent, Vector3 CurrentPosition, GameObject Pursuer)
     {
-        if (!Pursuer.TryGetComponent<Vehicle>(out var pursuerVehicle))
+        if (!Pursuer.TryGetComponent<VehicleComponent>(out var pursuerVehicle))
         {
             Debug.LogError("Evade::GetEvadingForceFromAgent() has failed - pursuerVehicle was null. Pursuer needs a Vehicle component.");
 
