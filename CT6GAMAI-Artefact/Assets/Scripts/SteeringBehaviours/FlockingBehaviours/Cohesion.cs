@@ -1,31 +1,35 @@
+using Assets.Scripts.SteeringBehaviours.DrivingBehaviours;
 using UnityEngine;
 
-/// <summary>
-/// Returns a force that steers an agent towards the average position of all its neighbours
-/// </summary>
-public class Cohesion : FlockingBehaviourBase
+namespace Assets.Scripts.SteeringBehaviours.FlockingBehaviours
 {
-    public override Vector3 Calculate()
+    /// <summary>
+    /// Returns a force that steers an agent towards the average position of all its neighbours
+    /// </summary>
+    public class Cohesion : FlockingBehaviourBase
     {
-        Vector3 steeringForce = Vector3.zero;
-        Vector3 averagePosition = Vector3.zero;
-
-        GameObject[] neighbours = GlobalSteeringFunctions.GetAllNearbyAgents(gameObject, VehicleComponent.GetVisionRadius(), VehicleComponent.GetVisionAngle() * Mathf.Deg2Rad);
-
-        if (neighbours.Length != 0)
+        public override Vector3 Calculate()
         {
-            foreach (GameObject neighbour in neighbours)
+            Vector3 steeringForce = Vector3.zero;
+            Vector3 averagePosition = Vector3.zero;
+
+            GameObject[] neighbours = GlobalSteeringFunctions.GetAllNearbyAgents(gameObject, VehicleComponent.GetVisionRadius(), VehicleComponent.GetVisionAngle() * Mathf.Deg2Rad);
+
+            if (neighbours.Length != 0)
             {
-                averagePosition += neighbour.transform.position;
+                foreach (GameObject neighbour in neighbours)
+                {
+                    averagePosition += neighbour.transform.position;
+                }
+
+                averagePosition /= neighbours.Length;
+
+                steeringForce = Seek.GetSeekingForceToLocation(VehicleComponent, transform.position, averagePosition);
             }
 
-            averagePosition /= neighbours.Length;
+            //Debug.Log($"Cohesion magnitude is {steeringForce.magnitude}");
 
-            steeringForce = Seek.GetSeekingForceToLocation(VehicleComponent, transform.position, averagePosition);
+            return steeringForce;
         }
-
-        //Debug.Log($"Cohesion magnitude is {steeringForce.magnitude}");
-
-        return steeringForce;
     }
 }

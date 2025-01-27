@@ -1,12 +1,16 @@
+using Assets.Scripts.StateMachines;
 using UnityEngine;
 
-[RequireComponent(typeof(ShopperStateMachine))]
-public class ShopperBlackboard : Blackboard
+namespace Assets.Scripts.BehaviourTree.Blackboards
 {
-    public ShopperStateMachine ShopperStateMachine;
-
-    private void Start()
+    [RequireComponent(typeof(ShopperStateMachine))]
+    public class ShopperBlackboard : Blackboard
     {
-        ShopperStateMachine = GetComponent<ShopperStateMachine>();
+        public ShopperStateMachine ShopperStateMachine;
+
+        private void Start()
+        {
+            ShopperStateMachine = GetComponent<ShopperStateMachine>();
+        }
     }
 }

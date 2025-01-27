@@ -1,17 +1,20 @@
-using UnityEngine;
+using Assets.Scripts.BehaviourTree.Blackboards;
 
-public class TiredDecorator : ConditionalDecorator
+namespace Assets.Scripts.BehaviourTree.DecoratorNodes
 {
-    ShopperBlackboard ShopperBlackboard;
-    public TiredDecorator(BehaviourTreeNode WrappedNode, Blackboard Blackboard) : base(WrappedNode, Blackboard)
+    public class TiredDecorator : ConditionalDecorator
     {
-        ShopperBlackboard = (ShopperBlackboard)Blackboard;
-    }
+        ShopperBlackboard ShopperBlackboard;
+        public TiredDecorator(BehaviourTreeNode WrappedNode, Blackboard Blackboard) : base(WrappedNode, Blackboard)
+        {
+            ShopperBlackboard = (ShopperBlackboard)Blackboard;
+        }
 
-    public override bool CheckStatus()
-    {
-        //ShopperBlackboard.ShopperStateMachine.m_BankedGold = 2;
+        public override bool CheckStatus()
+        {
+            //ShopperBlackboard.ShopperStateMachine.m_BankedGold = 2;
 
-        throw new System.NotImplementedException();
+            throw new System.NotImplementedException();
+        }
     }
 }

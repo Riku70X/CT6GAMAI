@@ -1,28 +1,32 @@
+using Assets.Scripts.ActorComponents;
 using UnityEngine;
 
-/// <summary>
-/// Returns a force that directs the agent towards a target position
-/// </summary>
-public class Seek : DrivingBehaviourBase
+namespace Assets.Scripts.SteeringBehaviours.DrivingBehaviours
 {
-    [Tooltip("The location we want to seek to")]
-    [SerializeField] private Vector3 TargetPos;
-
-    public override Vector3 Calculate()
-    {
-        return GetSeekingForceToLocation(VehicleComponent, transform.position, TargetPos);
-    }
-
     /// <summary>
     /// Returns a force that directs the agent towards a target position
     /// </summary>
-    /// <param name="TargetPosition">The location we are seeking to.</param>
-    public static Vector3 GetSeekingForceToLocation(VehicleComponent VehicleComponent, Vector3 CurrentPosition, Vector3 TargetPosition)
+    public class Seek : DrivingBehaviourBase
     {
-        Vector3 desiredVelocity = (TargetPosition - CurrentPosition).normalized * VehicleComponent.GetMaxSpeed();
+        [Tooltip("The location we want to seek to")]
+        [SerializeField] private Vector3 TargetPos;
 
-        Vector3 steeringForce = desiredVelocity - VehicleComponent.GetVelocity();
+        public override Vector3 Calculate()
+        {
+            return GetSeekingForceToLocation(VehicleComponent, transform.position, TargetPos);
+        }
 
-        return steeringForce;
+        /// <summary>
+        /// Returns a force that directs the agent towards a target position
+        /// </summary>
+        /// <param name="TargetPosition">The location we are seeking to.</param>
+        public static Vector3 GetSeekingForceToLocation(VehicleComponent VehicleComponent, Vector3 CurrentPosition, Vector3 TargetPosition)
+        {
+            Vector3 desiredVelocity = (TargetPosition - CurrentPosition).normalized * VehicleComponent.GetMaxSpeed();
+
+            Vector3 steeringForce = desiredVelocity - VehicleComponent.GetVelocity();
+
+            return steeringForce;
+        }
     }
 }

@@ -1,33 +1,36 @@
 using UnityEngine;
 
-/// <summary>
-/// Returns a force that steers an agent away from the agents in its neighbourhood region
-/// </summary>
-public class Separation : FlockingBehaviourBase
+namespace Assets.Scripts.SteeringBehaviours.FlockingBehaviours
 {
-    public override Vector3 Calculate()
+    /// <summary>
+    /// Returns a force that steers an agent away from the agents in its neighbourhood region
+    /// </summary>
+    public class Separation : FlockingBehaviourBase
     {
-        Vector3 steeringForce = Vector3.zero;
-
-        GameObject[] neighbours = GlobalSteeringFunctions.GetAllNearbyAgents(gameObject, VehicleComponent.GetVisionRadius(), VehicleComponent.GetVisionAngle() * Mathf.Deg2Rad);
-
-        foreach (GameObject neighbour in neighbours)
+        public override Vector3 Calculate()
         {
-            Vector3 toOurAgent = transform.position - neighbour.transform.position;
-            float distance = toOurAgent.magnitude;
+            Vector3 steeringForce = Vector3.zero;
 
-            toOurAgent = toOurAgent.normalized;
+            GameObject[] neighbours = GlobalSteeringFunctions.GetAllNearbyAgents(gameObject, VehicleComponent.GetVisionRadius(), VehicleComponent.GetVisionAngle() * Mathf.Deg2Rad);
 
-            if (distance != 0.0f)
+            foreach (GameObject neighbour in neighbours)
             {
-                toOurAgent /= distance;
+                Vector3 toOurAgent = transform.position - neighbour.transform.position;
+                float distance = toOurAgent.magnitude;
+
+                toOurAgent = toOurAgent.normalized;
+
+                if (distance != 0.0f)
+                {
+                    toOurAgent /= distance;
+                }
+
+                steeringForce += toOurAgent;
             }
 
-            steeringForce += toOurAgent;
+            //Debug.Log($"Separation magnitude is {steeringForce.magnitude}");
+
+            return steeringForce;
         }
-
-        //Debug.Log($"Separation magnitude is {steeringForce.magnitude}");
-
-        return steeringForce;
     }
 }

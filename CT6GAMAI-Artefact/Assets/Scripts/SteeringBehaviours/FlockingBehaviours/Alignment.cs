@@ -1,31 +1,34 @@
 using UnityEngine;
 
-/// <summary>
-/// Returns a force that steers an agent towards the same heading as its neighbours
-/// </summary>
-public class Alignment : FlockingBehaviourBase
+namespace Assets.Scripts.SteeringBehaviours.FlockingBehaviours
 {
-    public override Vector3 Calculate()
+    /// <summary>
+    /// Returns a force that steers an agent towards the same heading as its neighbours
+    /// </summary>
+    public class Alignment : FlockingBehaviourBase
     {
-        Vector3 steeringForce = Vector3.zero;
-        Vector3 averageHeading = Vector3.zero;
-
-        GameObject[] neighbours = GlobalSteeringFunctions.GetAllNearbyAgents(gameObject, VehicleComponent.GetVisionRadius(), VehicleComponent.GetVisionAngle() * Mathf.Deg2Rad);
-
-        if (neighbours.Length != 0)
+        public override Vector3 Calculate()
         {
-            foreach (GameObject neighbour in neighbours)
+            Vector3 steeringForce = Vector3.zero;
+            Vector3 averageHeading = Vector3.zero;
+
+            GameObject[] neighbours = GlobalSteeringFunctions.GetAllNearbyAgents(gameObject, VehicleComponent.GetVisionRadius(), VehicleComponent.GetVisionAngle() * Mathf.Deg2Rad);
+
+            if (neighbours.Length != 0)
             {
-                averageHeading += neighbour.transform.forward;
+                foreach (GameObject neighbour in neighbours)
+                {
+                    averageHeading += neighbour.transform.forward;
+                }
+
+                averageHeading /= neighbours.Length;
+
+                steeringForce = averageHeading - transform.forward;
             }
 
-            averageHeading /= neighbours.Length;
+            //Debug.Log($"Alignment magnitude is {steeringForce.magnitude}");
 
-            steeringForce = averageHeading - transform.forward;
+            return steeringForce;
         }
-
-        //Debug.Log($"Alignment magnitude is {steeringForce.magnitude}");
-
-        return steeringForce;
     }
 }

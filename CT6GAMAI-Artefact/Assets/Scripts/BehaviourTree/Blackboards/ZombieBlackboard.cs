@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class ZombieBlackboard : Blackboard
+namespace Assets.Scripts.BehaviourTree.Blackboards
 {
-    public Vector3 MoveToLocation;
-    public Vector3 PlayerLocation;
-
-    public int PlayerHealth = 2;
-
-    public GameObject Cube;
-
-    void Update()
+    public class ZombieBlackboard : Blackboard
     {
-        PlayerLocation = Cube.transform.position;
+        public Vector3 MoveToLocation;
+        public Vector3 PlayerLocation;
+
+        public int PlayerHealth = 2;
+
+        public GameObject Cube;
+
+        void Update()
+        {
+            PlayerLocation = Cube.transform.position;
+        }
     }
 }

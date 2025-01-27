@@ -1,12 +1,18 @@
-public class SniffOutGoldDesire : Desire
-{
-    public SniffOutGoldDesire()
-    {
-        State = new SniffOutGold();
-    }
+using Assets.Scripts.StateMachines;
+using Assets.Scripts.States.MinersDogStates;
 
-    public override void CalculateDesire(DesireBasedStateMachine DesireBasedStateMachine)
+namespace Assets.Scripts.Desires.MinersDogDesires
+{
+    public class SniffOutGoldDesire : Desire
     {
-        DesireVal = 0.9f; // Default action with a high desire
+        public SniffOutGoldDesire()
+        {
+            State = new SniffOutGold();
+        }
+
+        public override void CalculateDesire(DesireBasedStateMachine DesireBasedStateMachine)
+        {
+            DesireVal = 0.9f; // Default action with a high desire
+        }
     }
 }

@@ -1,21 +1,25 @@
+using Assets.Scripts.StateMachines;
 using UnityEngine;
 
-public class RunAround : State
+namespace Assets.Scripts.States.MinersDogStates
 {
-    public override void Execute(DesireBasedStateMachine DesireBasedStateMachine)
+    public class RunAround : State
     {
-        MinersDogStateMachine MinersDogStateMachine = (MinersDogStateMachine)DesireBasedStateMachine;
-
-        if (MinersDogStateMachine == null)
+        public override void Execute(DesireBasedStateMachine DesireBasedStateMachine)
         {
-            Debug.LogError("ERROR: Attempted to call State::Execute on something that does not implement this state");
-            return;
+            MinersDogStateMachine MinersDogStateMachine = (MinersDogStateMachine)DesireBasedStateMachine;
+
+            if (MinersDogStateMachine == null)
+            {
+                Debug.LogError("ERROR: Attempted to call State::Execute on something that does not implement this state");
+                return;
+            }
+
+            // Print out information on what it is doing...
+            Debug.Log("Running around!");
+
+            // Decrease the miner's dog's boredom
+            MinersDogStateMachine.m_Boredom -= 2;
         }
-
-        // Print out information on what it is doing...
-        Debug.Log("Running around!");
-
-        // Decrease the miner's dog's boredom
-        MinersDogStateMachine.m_Boredom -= 2;
     }
 }

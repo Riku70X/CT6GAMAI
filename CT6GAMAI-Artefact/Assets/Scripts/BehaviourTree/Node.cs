@@ -1,284 +1,288 @@
 using System.Collections.Generic;
 using System.Timers;
+using Assets.Scripts.BehaviourTree.Blackboards;
 
-/// <summary>
-/// Execute can return one of three things
-/// </summary>
-public enum BTStatus
+namespace Assets.Scripts.BehaviourTree
 {
-    RUNNING,
-    SUCCESS,
-    FAILURE
-}
-
-/// <summary>
-/// Base class. Sets the foundations for everything else
-/// </summary>
-public abstract class BehaviourTreeNode
-{
-    protected Blackboard bb;
-    public BehaviourTreeNode(Blackboard bb)
-    {
-        this.bb = bb;
-    }
-
-    public abstract BTStatus Execute();
-
     /// <summary>
-    /// Reset should be overidden in child classes as and when necessary
-    /// It should be called when a node is abruptly aborted before it can finish with a success or failure
-    /// i.e the node was still RUNNING when it is aborted you need to gracefully handle it to avoid unintended bugs
-    /// See DelayNode, CompositeNode and DecoratorNode for examples
+    /// Execute can return one of three things
     /// </summary>
-    public virtual void Reset()
+    public enum BTStatus
     {
-
-    }
-}
-
-/// <summary>
-/// Base class for node that can take child nodes. Only meant to be used in subclasses like Selector and Sequence,
-/// but you can add other subclass types (e.g. RandomSelector, RandomSequence, Parallel etc.)
-/// </summary>
-public abstract class CompositeNode : BehaviourTreeNode
-{
-    protected int CurrentChildIndex = 0;
-    protected List<BehaviourTreeNode> children;
-    public CompositeNode(Blackboard bb) : base(bb)
-    {
-        children = new List<BehaviourTreeNode>();
-    }
-    public void AddChild(BehaviourTreeNode child)
-    {
-        children.Add(child);
+        RUNNING,
+        SUCCESS,
+        FAILURE
     }
 
     /// <summary>
-    /// When a composite node is reset it set the child index back to 0, and it should propogate the reset down to all its children
+    /// Base class. Sets the foundations for everything else
     /// </summary>
-    public override void Reset()
+    public abstract class BehaviourTreeNode
     {
-        CurrentChildIndex = 0;
-        //Reset every child
-        for (int j = 0; j < children.Count; j++)
+        protected Blackboard bb;
+        public BehaviourTreeNode(Blackboard bb)
         {
-            children[j].Reset();
+            this.bb = bb;
         }
 
-    }
-}
+        public abstract BTStatus Execute();
 
-/// <summary>
-/// Selectors execute their children in order until a child succeeds, at which point it stops execution
-/// If a child returns RUNNING, then it will need to stop execution but resume from the same point the next time it executes
-/// </summary>
-public class Selector : CompositeNode
-{
-    public Selector(Blackboard bb) : base(bb)
-    {
-
-    }
-
-    public override BTStatus Execute()
-    {
-        BTStatus rv = BTStatus.FAILURE;
-
-        if (CurrentChildIndex < children.Count)
+        /// <summary>
+        /// Reset should be overidden in child classes as and when necessary
+        /// It should be called when a node is abruptly aborted before it can finish with a success or failure
+        /// i.e the node was still RUNNING when it is aborted you need to gracefully handle it to avoid unintended bugs
+        /// See DelayNode, CompositeNode and DecoratorNode for examples
+        /// </summary>
+        public virtual void Reset()
         {
-            for (int j = CurrentChildIndex; j < children.Count; j++)
+
+        }
+    }
+
+    /// <summary>
+    /// Base class for node that can take child nodes. Only meant to be used in subclasses like Selector and Sequence,
+    /// but you can add other subclass types (e.g. RandomSelector, RandomSequence, Parallel etc.)
+    /// </summary>
+    public abstract class CompositeNode : BehaviourTreeNode
+    {
+        protected int CurrentChildIndex = 0;
+        protected List<BehaviourTreeNode> children;
+        public CompositeNode(Blackboard bb) : base(bb)
+        {
+            children = new List<BehaviourTreeNode>();
+        }
+        public void AddChild(BehaviourTreeNode child)
+        {
+            children.Add(child);
+        }
+
+        /// <summary>
+        /// When a composite node is reset it set the child index back to 0, and it should propogate the reset down to all its children
+        /// </summary>
+        public override void Reset()
+        {
+            CurrentChildIndex = 0;
+            //Reset every child
+            for (int j = 0; j < children.Count; j++)
             {
-                rv = children[j].Execute();
+                children[j].Reset();
+            }
 
-                if (rv == BTStatus.RUNNING)
+        }
+    }
+
+    /// <summary>
+    /// Selectors execute their children in order until a child succeeds, at which point it stops execution
+    /// If a child returns RUNNING, then it will need to stop execution but resume from the same point the next time it executes
+    /// </summary>
+    public class Selector : CompositeNode
+    {
+        public Selector(Blackboard bb) : base(bb)
+        {
+
+        }
+
+        public override BTStatus Execute()
+        {
+            BTStatus rv = BTStatus.FAILURE;
+
+            if (CurrentChildIndex < children.Count)
+            {
+                for (int j = CurrentChildIndex; j < children.Count; j++)
                 {
-                    CurrentChildIndex = j;
+                    rv = children[j].Execute();
 
-                    return rv;
-                }
+                    if (rv == BTStatus.RUNNING)
+                    {
+                        CurrentChildIndex = j;
 
-                if (rv == BTStatus.SUCCESS)
-                {
-                    Reset();
+                        return rv;
+                    }
 
-                    return rv;
+                    if (rv == BTStatus.SUCCESS)
+                    {
+                        Reset();
+
+                        return rv;
+                    }
                 }
             }
+
+            // exceeded number of children, therefore all returned false
+            Reset();
+            return rv;
         }
-
-        // exceeded number of children, therefore all returned false
-        Reset();
-        return rv;
-    }
-}
-
-/// <summary>
-/// Sequences execute their children in order until a child fails, at which point it stops execution
-/// If a child returns RUNNING, then it will need to stop execution but resume from the same point the next time it executes
-/// </summary>
-public class Sequence : CompositeNode
-{
-    public Sequence(Blackboard bb) : base(bb)
-    {
-
-    }
-    public override BTStatus Execute()
-    {
-        BTStatus rv = BTStatus.SUCCESS;
-
-        if (CurrentChildIndex < children.Count)
-        {
-            for (int j = CurrentChildIndex; j < children.Count; j++)
-            {
-                rv = children[j].Execute();
-
-                if (rv == BTStatus.RUNNING)
-                {
-                    CurrentChildIndex = j;
-
-                    return rv;
-                }
-
-                if (rv == BTStatus.FAILURE)
-                {
-                    Reset();
-
-                    return rv;
-                }
-            }
-        }
-
-        // exceeded number of children, therefore all returned true
-        Reset();
-        return rv;
-    }
-}
-
-/// <summary>
-/// Decorator nodes customise functionality of other nodes by wrapping around them, see InverterDecorator for example
-/// </summary>
-public abstract class DecoratorNode : BehaviourTreeNode
-{
-    protected BehaviourTreeNode WrappedNode;
-    public DecoratorNode(BehaviourTreeNode WrappedNode, Blackboard bb) : base(bb)
-    {
-        this.WrappedNode = WrappedNode;
-    }
-
-    public BehaviourTreeNode GetWrappedNode()
-    {
-        return WrappedNode;
     }
 
     /// <summary>
-    /// Should reset the wrapped node
+    /// Sequences execute their children in order until a child fails, at which point it stops execution
+    /// If a child returns RUNNING, then it will need to stop execution but resume from the same point the next time it executes
     /// </summary>
-    public override void Reset()
+    public class Sequence : CompositeNode
     {
-        WrappedNode.Reset();
-    }
-}
-
-
-/// <summary>
-/// Inverter decorator simply inverts the result of success/failure of the wrapped node
-/// </summary>
-public class InverterDecorator : DecoratorNode
-{
-    public InverterDecorator(BehaviourTreeNode WrappedNode, Blackboard bb) : base(WrappedNode, bb)
-    {
-
-    }
-
-    public override BTStatus Execute()
-    {
-        BTStatus rv = WrappedNode.Execute();
-
-        if (rv == BTStatus.FAILURE)
+        public Sequence(Blackboard bb) : base(bb)
         {
-            rv = BTStatus.SUCCESS;
+
         }
-        else if (rv == BTStatus.SUCCESS)
+        public override BTStatus Execute()
         {
-            rv = BTStatus.FAILURE;
+            BTStatus rv = BTStatus.SUCCESS;
+
+            if (CurrentChildIndex < children.Count)
+            {
+                for (int j = CurrentChildIndex; j < children.Count; j++)
+                {
+                    rv = children[j].Execute();
+
+                    if (rv == BTStatus.RUNNING)
+                    {
+                        CurrentChildIndex = j;
+
+                        return rv;
+                    }
+
+                    if (rv == BTStatus.FAILURE)
+                    {
+                        Reset();
+
+                        return rv;
+                    }
+                }
+            }
+
+            // exceeded number of children, therefore all returned true
+            Reset();
+            return rv;
+        }
+    }
+
+    /// <summary>
+    /// Decorator nodes customise functionality of other nodes by wrapping around them, see InverterDecorator for example
+    /// </summary>
+    public abstract class DecoratorNode : BehaviourTreeNode
+    {
+        protected BehaviourTreeNode WrappedNode;
+        public DecoratorNode(BehaviourTreeNode WrappedNode, Blackboard bb) : base(bb)
+        {
+            this.WrappedNode = WrappedNode;
         }
 
-        return rv;
-    }
-}
-
-/// <summary>
-/// Inherit this and override CheckStatus. If that returns true, then it will execute the WrappedNode otherwise it will return failure
-/// </summary>
-public abstract class ConditionalDecorator : DecoratorNode
-{
-    public ConditionalDecorator(BehaviourTreeNode WrappedNode, Blackboard bb) : base(WrappedNode, bb)
-    {
-
-    }
-
-    public abstract bool CheckStatus();
-    public override BTStatus Execute()
-    {
-        BTStatus rv = BTStatus.FAILURE;
-
-        if (CheckStatus())
-            rv = WrappedNode.Execute();
-
-        return rv;
-    }
-
-
-}
-
-/// <summary>
-/// This node simply returns success after the allotted delay time has passed
-/// </summary>
-public class DelayNode : BehaviourTreeNode
-{
-    protected float Delay = 0.0f;
-    bool Started = false;
-    private Timer regulator;
-    bool DelayFinished = false;
-    public DelayNode(Blackboard bb, float DelayTime) : base(bb)
-    {
-        this.Delay = DelayTime;
-        regulator = new Timer(Delay * 1000.0f); // in milliseconds, so multiply by 1000
-        regulator.Elapsed += OnTimedEvent;
-        regulator.Enabled = true;
-        regulator.Stop();
-    }
-
-    public override BTStatus Execute()
-    {
-        BTStatus rv = BTStatus.RUNNING;
-        if (!Started
-            && !DelayFinished)
+        public BehaviourTreeNode GetWrappedNode()
         {
-            Started = true;
-            regulator.Start();
+            return WrappedNode;
         }
-        else if (DelayFinished)
+
+        /// <summary>
+        /// Should reset the wrapped node
+        /// </summary>
+        public override void Reset()
         {
+            WrappedNode.Reset();
+        }
+    }
+
+
+    /// <summary>
+    /// Inverter decorator simply inverts the result of success/failure of the wrapped node
+    /// </summary>
+    public class InverterDecorator : DecoratorNode
+    {
+        public InverterDecorator(BehaviourTreeNode WrappedNode, Blackboard bb) : base(WrappedNode, bb)
+        {
+
+        }
+
+        public override BTStatus Execute()
+        {
+            BTStatus rv = WrappedNode.Execute();
+
+            if (rv == BTStatus.FAILURE)
+            {
+                rv = BTStatus.SUCCESS;
+            }
+            else if (rv == BTStatus.SUCCESS)
+            {
+                rv = BTStatus.FAILURE;
+            }
+
+            return rv;
+        }
+    }
+
+    /// <summary>
+    /// Inherit this and override CheckStatus. If that returns true, then it will execute the WrappedNode otherwise it will return failure
+    /// </summary>
+    public abstract class ConditionalDecorator : DecoratorNode
+    {
+        public ConditionalDecorator(BehaviourTreeNode WrappedNode, Blackboard bb) : base(WrappedNode, bb)
+        {
+
+        }
+
+        public abstract bool CheckStatus();
+        public override BTStatus Execute()
+        {
+            BTStatus rv = BTStatus.FAILURE;
+
+            if (CheckStatus())
+                rv = WrappedNode.Execute();
+
+            return rv;
+        }
+
+
+    }
+
+    /// <summary>
+    /// This node simply returns success after the allotted delay time has passed
+    /// </summary>
+    public class DelayNode : BehaviourTreeNode
+    {
+        protected float Delay = 0.0f;
+        bool Started = false;
+        private Timer regulator;
+        bool DelayFinished = false;
+        public DelayNode(Blackboard bb, float DelayTime) : base(bb)
+        {
+            this.Delay = DelayTime;
+            regulator = new Timer(Delay * 1000.0f); // in milliseconds, so multiply by 1000
+            regulator.Elapsed += OnTimedEvent;
+            regulator.Enabled = true;
+            regulator.Stop();
+        }
+
+        public override BTStatus Execute()
+        {
+            BTStatus rv = BTStatus.RUNNING;
+            if (!Started
+                && !DelayFinished)
+            {
+                Started = true;
+                regulator.Start();
+            }
+            else if (DelayFinished)
+            {
+                DelayFinished = false;
+                Started = false;
+                rv = BTStatus.SUCCESS;
+            }
+
+            return rv;
+        }
+
+        private void OnTimedEvent(object sender, ElapsedEventArgs e)
+        {
+            Started = false;
+            DelayFinished = true;
+            regulator.Stop();
+        }
+
+        //Timers count down independently of the Behaviour Tree, so we need to stop them when the behaviour is aborted/reset
+        public override void Reset()
+        {
+            regulator.Stop();
             DelayFinished = false;
             Started = false;
-            rv = BTStatus.SUCCESS;
         }
-
-        return rv;
-    }
-
-    private void OnTimedEvent(object sender, ElapsedEventArgs e)
-    {
-        Started = false;
-        DelayFinished = true;
-        regulator.Stop();
-    }
-
-    //Timers count down independently of the Behaviour Tree, so we need to stop them when the behaviour is aborted/reset
-    public override void Reset()
-    {
-        regulator.Stop();
-        DelayFinished = false;
-        Started = false;
     }
 }

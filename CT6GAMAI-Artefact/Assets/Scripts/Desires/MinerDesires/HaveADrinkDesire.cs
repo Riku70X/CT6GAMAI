@@ -1,22 +1,27 @@
+using Assets.Scripts.StateMachines;
+using Assets.Scripts.States.MinerStates;
 using UnityEngine;
 
-public class HaveADrinkDesire : Desire
+namespace Assets.Scripts.Desires.MinerDesires
 {
-    public HaveADrinkDesire()
+    public class HaveADrinkDesire : Desire
     {
-        State = new HaveADrink();
-    }
-
-    public override void CalculateDesire(DesireBasedStateMachine DesireBasedStateMachine)
-    {
-        MinerStateMachine MinerStateMachine = (MinerStateMachine)DesireBasedStateMachine;
-
-        if (MinerStateMachine == null)
+        public HaveADrinkDesire()
         {
-            Debug.LogError("ERROR: Attempted to call Desire::CalculateDesire on something that does not implement this desire");
-            return;
+            State = new HaveADrink();
         }
 
-        DesireVal = Mathf.Clamp((float)MinerStateMachine.m_Thirst / MinerStateMachine.maxThirst, 0, 1);
+        public override void CalculateDesire(DesireBasedStateMachine DesireBasedStateMachine)
+        {
+            MinerStateMachine MinerStateMachine = (MinerStateMachine)DesireBasedStateMachine;
+
+            if (MinerStateMachine == null)
+            {
+                Debug.LogError("ERROR: Attempted to call Desire::CalculateDesire on something that does not implement this desire");
+                return;
+            }
+
+            DesireVal = Mathf.Clamp((float)MinerStateMachine.m_Thirst / MinerStateMachine.maxThirst, 0, 1);
+        }
     }
 }

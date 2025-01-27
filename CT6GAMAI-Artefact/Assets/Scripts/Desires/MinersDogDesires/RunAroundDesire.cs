@@ -1,22 +1,27 @@
+using Assets.Scripts.StateMachines;
+using Assets.Scripts.States.MinersDogStates;
 using UnityEngine;
 
-public class RunAroundDesire : Desire
+namespace Assets.Scripts.Desires.MinersDogDesires
 {
-    public RunAroundDesire()
+    public class RunAroundDesire : Desire
     {
-        State = new RunAround();
-    }
-
-    public override void CalculateDesire(DesireBasedStateMachine DesireBasedStateMachine)
-    {
-        MinersDogStateMachine MinersDogStateMachine = (MinersDogStateMachine)DesireBasedStateMachine;
-
-        if (MinersDogStateMachine == null)
+        public RunAroundDesire()
         {
-            Debug.LogError("ERROR: Attempted to call Desire::CalculateDesire on something that does not implement this desire");
-            return;
+            State = new RunAround();
         }
 
-        DesireVal = Mathf.Clamp((float)MinersDogStateMachine.m_Boredom / MinersDogStateMachine.maxBoredom, 0, 1);
+        public override void CalculateDesire(DesireBasedStateMachine DesireBasedStateMachine)
+        {
+            MinersDogStateMachine MinersDogStateMachine = (MinersDogStateMachine)DesireBasedStateMachine;
+
+            if (MinersDogStateMachine == null)
+            {
+                Debug.LogError("ERROR: Attempted to call Desire::CalculateDesire on something that does not implement this desire");
+                return;
+            }
+
+            DesireVal = Mathf.Clamp((float)MinersDogStateMachine.m_Boredom / MinersDogStateMachine.maxBoredom, 0, 1);
+        }
     }
 }

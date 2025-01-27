@@ -1,39 +1,43 @@
+using Assets.Scripts.ActorComponents;
 using UnityEngine;
 
-/// <summary>
-/// Returns a force that directs the agent away from a predicted future location of a target agent
-/// </summary>
-public class Evade : DrivingBehaviourBase
+namespace Assets.Scripts.SteeringBehaviours.DrivingBehaviours
 {
-    [Tooltip("The agent we want to evade")]
-    [SerializeField] private GameObject Pursuer;
-
-    public override Vector3 Calculate()
-    {
-        return GetEvadingForceFromAgent(VehicleComponent, transform.position, Pursuer);
-    }
-
     /// <summary>
     /// Returns a force that directs the agent away from a predicted future location of a target agent
     /// </summary>
-    /// <param name="Pursuer">The agent we are evading</param>
-    public static Vector3 GetEvadingForceFromAgent(VehicleComponent VehicleComponent, Vector3 CurrentPosition, GameObject Pursuer)
+    public class Evade : DrivingBehaviourBase
     {
-        if (!Pursuer.TryGetComponent<VehicleComponent>(out var pursuerVehicle))
-        {
-            Debug.LogError("Evade::GetEvadingForceFromAgent() has failed - pursuerVehicle was null. Pursuer needs a Vehicle component.");
+        [Tooltip("The agent we want to evade")]
+        [SerializeField] private GameObject Pursuer;
 
-            return Vector3.zero;
+        public override Vector3 Calculate()
+        {
+            return GetEvadingForceFromAgent(VehicleComponent, transform.position, Pursuer);
         }
 
-        Vector3 toPursuer = Pursuer.transform.position - CurrentPosition;
+        /// <summary>
+        /// Returns a force that directs the agent away from a predicted future location of a target agent
+        /// </summary>
+        /// <param name="Pursuer">The agent we are evading</param>
+        public static Vector3 GetEvadingForceFromAgent(VehicleComponent VehicleComponent, Vector3 CurrentPosition, GameObject Pursuer)
+        {
+            if (!Pursuer.TryGetComponent<VehicleComponent>(out var pursuerVehicle))
+            {
+                Debug.LogError("Evade::GetEvadingForceFromAgent() has failed - pursuerVehicle was null. Pursuer needs a Vehicle component.");
 
-        float lookAheadTime = toPursuer.magnitude / (VehicleComponent.GetMaxSpeed() + pursuerVehicle.GetSpeed());
+                return Vector3.zero;
+            }
 
-        Vector3 pursuerFuturePosition = Pursuer.transform.position + pursuerVehicle.GetVelocity() * lookAheadTime;
+            Vector3 toPursuer = Pursuer.transform.position - CurrentPosition;
 
-        Vector3 steeringForce = Flee.GetFleeingForceFromLocation(VehicleComponent, CurrentPosition, pursuerFuturePosition);
+            float lookAheadTime = toPursuer.magnitude / (VehicleComponent.GetMaxSpeed() + pursuerVehicle.GetSpeed());
 
-        return steeringForce;
+            Vector3 pursuerFuturePosition = Pursuer.transform.position + pursuerVehicle.GetVelocity() * lookAheadTime;
+
+            Vector3 steeringForce = Flee.GetFleeingForceFromLocation(VehicleComponent, CurrentPosition, pursuerFuturePosition);
+
+            return steeringForce;
+        }
     }
 }

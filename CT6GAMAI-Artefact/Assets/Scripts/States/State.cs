@@ -1,4 +1,9 @@
-public abstract class State
+using Assets.Scripts.StateMachines;
+
+namespace Assets.Scripts.States
 {
-    public abstract void Execute(DesireBasedStateMachine DesireBasedStateMachine);
+    public abstract class State
+    {
+        public abstract void Execute(DesireBasedStateMachine DesireBasedStateMachine);
+    }
 }

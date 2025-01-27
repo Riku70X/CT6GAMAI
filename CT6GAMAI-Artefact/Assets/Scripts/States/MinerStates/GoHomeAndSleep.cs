@@ -1,21 +1,25 @@
+using Assets.Scripts.StateMachines;
 using UnityEngine;
 
-public class GoHomeAndSleep : State
+namespace Assets.Scripts.States.MinerStates
 {
-    public override void Execute(DesireBasedStateMachine DesireBasedStateMachine)
+    public class GoHomeAndSleep : State
     {
-        MinerStateMachine MinerStateMachine = (MinerStateMachine)DesireBasedStateMachine;
-
-        if (MinerStateMachine == null)
+        public override void Execute(DesireBasedStateMachine DesireBasedStateMachine)
         {
-            Debug.LogError("ERROR: Attempted to call State::Execute on something that does not implement this state");
-            return;
+            MinerStateMachine MinerStateMachine = (MinerStateMachine)DesireBasedStateMachine;
+
+            if (MinerStateMachine == null)
+            {
+                Debug.LogError("ERROR: Attempted to call State::Execute on something that does not implement this state");
+                return;
+            }
+
+            // Print out information on what it is doing...
+            Debug.Log("Sleeping...");
+
+            // Decrease tiredness
+            MinerStateMachine.m_Tiredness -= 2;
         }
-
-        // Print out information on what it is doing...
-        Debug.Log("Sleeping...");
-
-        // Decrease tiredness
-        MinerStateMachine.m_Tiredness -= 2;
     }
 }

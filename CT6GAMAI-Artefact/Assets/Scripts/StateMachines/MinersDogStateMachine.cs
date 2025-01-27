@@ -1,58 +1,65 @@
-public class MinersDogStateMachine : DesireBasedStateMachine
+using Assets.Scripts.Desires;
+using Assets.Scripts.Desires.MinersDogDesires;
+using Assets.Scripts.States.MinersDogStates;
+
+namespace Assets.Scripts.StateMachines
 {
-    //public:
-
-    // These values can be monitored and edited by our "states"
-    public int m_Boredom;
-
-    // These values cannot change at runtime
-    public readonly int maxBoredom;
-
-    public MinersDogStateMachine()
+    public class MinersDogStateMachine : DesireBasedStateMachine
     {
-        // Set the initial state as SniffOutGold
-        pState = new SniffOutGold();
+        //public:
 
-        m_Boredom = 0;
+        // These values can be monitored and edited by our "states"
+        public int m_Boredom;
 
-        maxBoredom = 8;
+        // These values cannot change at runtime
+        public readonly int maxBoredom;
 
-        m_DesireToSniff = new SniffOutGoldDesire();
-        m_DesireToBark = new BarkDesire();
-        m_DesireToRun = new RunAroundDesire();
-    }
-
-    //protected:
-
-    protected override void ChooseState()
-    {
-        // If running around, keep running around until no longer bored
-        if (pState is RunAround && m_Boredom > 0)
+        public MinersDogStateMachine()
         {
-            return;
+            // Set the initial state as SniffOutGold
+            pState = new SniffOutGold();
+
+            m_Boredom = 0;
+
+            maxBoredom = 8;
+
+            m_DesireToSniff = new SniffOutGoldDesire();
+            m_DesireToBark = new BarkDesire();
+            m_DesireToRun = new RunAroundDesire();
         }
 
-        m_DesireToSniff.CalculateDesire(this);
-        m_DesireToBark.CalculateDesire(this);
-        m_DesireToRun.CalculateDesire(this);
+        //protected:
 
-        DesirePriorityQueue.Clear();
-        DesirePriorityQueue.Enqueue(m_DesireToSniff);
-        DesirePriorityQueue.Enqueue(m_DesireToBark);
-        DesirePriorityQueue.Enqueue(m_DesireToRun);
-
-        if (!DesirePriorityQueue.IsEmpty())
+        protected override void ChooseState()
         {
-            Desire GreatestDesire = DesirePriorityQueue.Peek();
+            // If running around, keep running around until no longer bored
+            if (pState is RunAround && m_Boredom > 0)
+            {
+                return;
+            }
 
-            ChangeState(GreatestDesire.State);
+            m_DesireToSniff.CalculateDesire(this);
+            m_DesireToBark.CalculateDesire(this);
+            m_DesireToRun.CalculateDesire(this);
+
+            DesirePriorityQueue.Clear();
+            DesirePriorityQueue.Enqueue(m_DesireToSniff);
+            DesirePriorityQueue.Enqueue(m_DesireToBark);
+            DesirePriorityQueue.Enqueue(m_DesireToRun);
+
+            if (!DesirePriorityQueue.IsEmpty())
+            {
+                Desire GreatestDesire = DesirePriorityQueue.Peek();
+
+                ChangeState(GreatestDesire.State);
+            }
         }
+
+        //private:
+
+        // Desire system
+        private readonly SniffOutGoldDesire m_DesireToSniff;
+        private readonly BarkDesire m_DesireToBark;
+        private readonly RunAroundDesire m_DesireToRun;
     }
-
-    //private:
-
-    // Desire system
-    private readonly SniffOutGoldDesire m_DesireToSniff;
-    private readonly BarkDesire m_DesireToBark;
-    private readonly RunAroundDesire m_DesireToRun;
 }

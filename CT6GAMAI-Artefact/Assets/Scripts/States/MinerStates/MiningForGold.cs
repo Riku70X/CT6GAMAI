@@ -1,25 +1,29 @@
+using Assets.Scripts.StateMachines;
 using UnityEngine;
 
-public class MiningForGold : State
+namespace Assets.Scripts.States.MinerStates
 {
-    public override void Execute(DesireBasedStateMachine DesireBasedStateMachine)
+    public class MiningForGold : State
     {
-        MinerStateMachine MinerStateMachine = (MinerStateMachine)DesireBasedStateMachine;
-
-        if (MinerStateMachine == null)
+        public override void Execute(DesireBasedStateMachine DesireBasedStateMachine)
         {
-            Debug.LogError("ERROR: Attempted to call State::Execute on something that does not implement this state");
-            return;
+            MinerStateMachine MinerStateMachine = (MinerStateMachine)DesireBasedStateMachine;
+
+            if (MinerStateMachine == null)
+            {
+                Debug.LogError("ERROR: Attempted to call State::Execute on something that does not implement this state");
+                return;
+            }
+
+            // Print out information on what it is doing...
+            Debug.Log("Digging for gold!");
+
+            // Increment the MinerStateMachine's gold amount
+            MinerStateMachine.m_Gold++;
+
+            // Working makes you tired and thirsty
+            MinerStateMachine.m_Tiredness++;
+            MinerStateMachine.m_Thirst++;
         }
-
-        // Print out information on what it is doing...
-        Debug.Log("Digging for gold!");
-
-        // Increment the MinerStateMachine's gold amount
-        MinerStateMachine.m_Gold++;
-
-        // Working makes you tired and thirsty
-        MinerStateMachine.m_Tiredness++;
-        MinerStateMachine.m_Thirst++;
     }
 }
