@@ -21,7 +21,7 @@ namespace Assets.Scripts.StateMachines
 
         public MinerStateMachine()
         {
-            // Set the intial state as MiningForGold
+            // Set the initial state as MiningForGold
             pState = new MiningForGold();
 
             m_Gold = 0;
